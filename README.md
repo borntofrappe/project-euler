@@ -7,3 +7,9 @@ Inspired by [this post](https://www.freecodecamp.org/news/developer-new-years-re
 The problems are tackled in the [freeCodeCamp platform and editor](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/).
 
 By the end of the challenge, I hope to have new insight into JavaScript and a new perspective on programming. I also hope that mathematics won't force me to withdraw from achieving what promises to be a rewarding challenge.
+
+## Problems
+
+| Number | Title                | Notes |
+| ------ | -------------------- | :---: |
+| 001    | Multiples of 3 and 5 |  ✔️   |
