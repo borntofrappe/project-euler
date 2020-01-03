@@ -1,5 +1,7 @@
 # #ProjectEuler100
 
+⚠️ Contains spoilers ⚠️
+
 In this repo I set out to hopefully solve and document my endeavors in the #projecteuler100 challenge.
 
 Inspired by [this post](https://www.freecodecamp.org/news/developer-new-years-resolution-guide/#the-projecteuler100-challenge-the-dark-souls-of-new-year-s-resolutions) from [Quincy Larson](https://twitter.com/ossia), the idea is to go through the first 100 problems from the Euler project.
@@ -13,6 +15,6 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | Number | Title                  | Solution | Notes |
 | ------ | ---------------------- | :------: | :---: |
 | 001    | Multiples of 3 and 5   |    ✔️    |  ✔️   |
-| 002    | Even Fibonacci Numbers |    ❌    |  ❌   |
+| 002    | Even Fibonacci Numbers |    ✔️    |  ✔️   |
 
 <!-- | 00x|Title|❌|❌| -->

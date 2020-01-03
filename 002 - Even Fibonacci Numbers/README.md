@@ -21,57 +21,57 @@ fiboEvenSum(10);
 
 ## Notes
 
-Like the first challenge, [exhaustively documented in this repo](https://github.com/borntofrappe/project-euler/tree/master/001%20-%20Multiples%20of%203%20and%205), the problem asks to first describe a set of numbers, and then add them all together.
+Like the first challenge, [exhaustively documented in this repo](https://github.com/borntofrappe/project-euler/tree/master/001%20-%20Multiples%20of%203%20and%205), the problem asks to first create a set of numbers, and then add them all together.
 
-Given the similarity, I decided to explore _recursion_ instead of using the same logic through a `for` loop.
+Adding only the _even_ numbers requires a minor modification to the `reduce` function, so that the most challenging part of the problem is creating the array describing Fibonacci's sequence.
 
-## Fibonacci's Numbers
+Given the similarity, I decided to explore _recursion_, a topic I previously left aside and one which honestly still confuses me. Perhaps a bit less now.
 
-Adding only the _even_ numbers requires a minor modification to the `reduce` function, so that the most challenging part of the problem is creating an array describing Fibonacci's numbers.
+## Fibonacci's Sequence
 
 From the problem's description:
 
-- start with `[1, 2]`;
+- start with `[1, 2]`
 
-- append a number which is the sum of the two preceding values;
+- append a number which is the sum of the two preceding values
 
 ```pseudo
 1 2
-   3
-    5
-     8
+   (1+2) 3
+    (2+3) 5
+     (3+5) 8
       ...
 ```
 
-Starting _without_ recursion, I could see this construct as built as follows:
+_Without_ recursion, I would create such a sequence with a familiar `for` loop:
 
 ```js
 function fibonacciNumbers(n) {
   // starting values
-  const fib = [1, 2];
+  const sequence = [1, 2];
   // until the array has n items
-  for (let i = fib.length; i < n; i += 1) {
+  for (let i = sequence.length; i < n; i += 1) {
     // retrieve the last two items and append their sum to the array
-    const [a, b] = fib.slice(-2);
-    fib.push(a + b);
+    const [a, b] = sequence.slice(-2);
+    sequence.push(a + b);
   }
-  return fib;
+  return sequence;
 }
 ```
 
-Using a negative integer in the `.slice()` function allows to retrieve the items from the end of the array, which is utterly convenient.
+Using a negative integer in the `.slice()` function allows to retrieve the items from the end of the array, which is utterly convenient. `sequence.slice(-2)` provides an array with the last two items, and the `[]` square brackets destructure the values in the new variables.
 
-This already solves the section, providing the expected sequence:
+With this snippet, it is already possible to find Fibonacci's numbers:
 
 ```js
 console.log(fibonacciNumbers(10)); // [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 ```
 
-Since I wanted to explore _recursion_ however, I'll explore Fibonacci's numbers a little further. If you are satisfied with the solution using the `for` loop, feel free to skip to the wrap up section. If you are willing to indulge in a verbose paragraph or two, thanks for tagging along for the ride.
+Since I wanted to explore _recursion_ however, this section is far from done. If you are satisfied with the solution, feel free to skip to the wrap up section. If you are willing to indulge in a verbose and often rambling explanation, thanks for tagging along for the ride.
 
-## Recursion
+### Recursion
 
-Luckily for me the [freeCodeCamp curriculum](https://www.freecodecamp.org/learn) provides a few challenges to introduce the concept:
+Luckily, the [freeCodeCamp curriculum](https://www.freecodecamp.org/learn) has a few challenges on the topic:
 
 - [Replace Loops using Recursion](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/replace-loops-using-recursion)
 
@@ -79,77 +79,276 @@ Luckily for me the [freeCodeCamp curriculum](https://www.freecodecamp.org/learn)
 
 - [Use Recursion to Create a Range of Numbers](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/use-recursion-to-create-a-range-of-numbers)
 
-These are not covered in the section, but heavily influence the final solution.
+Following these challenges, this is how I explained recursion to myself, and ultimately recreated the previous function without a `for` loop.
 
-```js
-function fibonacciNumbers(n) {
-  if (n <= 2) {
-    return [1, 2];
-  } else {
-    const fib = fibonacciNumbers(n - 1);
-    const [a, b] = fib.slice(-2);
-    return [...fib, a + b];
+- recursion consists of a function calling itself with a different argument
+
+  ```js
+  function fibonacciNumbers(n) {
+    fibonacciNumbers(x);
   }
-}
-```
+  ```
 
-```js
-function fiboEvenSum(n) {
+- there exist a _base case_, describing when recursion should end. The argument is different in order to ultimately reach this case
+
+  ```js
+  function fibonacciNumbers(n) {
+    if (n === baseCase) {
+      // stop recursion
+      // return a value
+    } else {
+      // continue recursion
+      fibonacciNumbers(x);
+    }
+  }
+  ```
+
+  You can think of the base case similarly to the condition in a `for` loop.
+
+  ```js
+  for(;condition;)
+  ```
+
+  Much alike a `for` loop, this also means that there is a risk of an infinite loop. If the condition is never met, the function calls itself over and over, eventually resulting in the rather infamous error message of _stack overflow_. More on this "stack" in a moment.
+
+  For Fibonacci's sequence, the base case is `n === 2`. In this instance, recursion should end and the function should return the two numbers provided as a starting point: `[1, 2]`
+
+  ```js
+  function fibonacciNumbers(n) {
+    if (n === 2) {
+      return [1, 2];
+    } else {
+      // continue recursion
+      fibonacciNumbers(x);
+    }
+  }
+  ```
+
+  In the final solution I opted for `n <= 2`, but this is more out of precaution than anything. Wouldn't like a stack overflow by calling the function with a smaller value.
+
+- continuing with recursion, and following the _base case_, the function describes the _recursive call_. If you weren't confused already, prepared to be dazzled. I highly recommend you'd code along this part, as it's less intuitive than one would hope.
+
+  The recursive call describes how the function is called again, providing a different argument.
+
+  In our instance, the function is called with a value decremented by one at every iteration:
+
+  ```js
   function fibonacciNumbers(n) {
     if (n <= 2) {
       return [1, 2];
     } else {
-      const fib = fibonacciNumbers(n - 1);
-      const [a, b] = fib.slice(-2);
-      return [...fib, a + b];
+      fibonacciNumbers(n - 1);
     }
   }
-  return fibonacciNumbers(n).reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
-}
+  ```
+
+  The idea is to go from the input number `n` down to `2`, where the function returns `[1, 2]`.
+
+  Running this function however will do little good. There won't be an infinite loop, but the function won't do anything beside looping from `n` until `2`.
+
+  Let's try to log `n` in the first place.
+
+  ```js
+  function fibonacciNumbers(n) {
+    if (n <= 2) {
+      return [1, 2];
+    } else {
+      fibonacciNumbers(n - 1);
+      console.log(n);
+    }
+  }
+
+  fibonacciNumbers(5); // 3 4 5
+  ```
+
+  If you were expecting something different, something like `5 4 3`, you would not have been the only one. The reason `i` logs an incrementing value, is because of the [_call stack_](https://developer.mozilla.org/en-US/docs/Glossary/Call_stack). I need to research more on the topic, but with a first oversimplification, when a function is called within another function's scope, it is placed on a stack:
+
+  ```pseudo
+  stack
+  - fibonacciNumbers(5)
+  - fibonacciNumbers(4)
+  - fibonacciNumbers(3)
+  - fibonacciNumbers(2)
+  ```
+
+  Starting with the innermost function then, each function is popped from the stack. Last in, first out.
+
+  ```pseudo
+  order
+  - fibonacciNumbers(2)
+  - fibonacciNumbers(3)
+  - fibonacciNumbers(4)
+  - fibonacciNumbers(5)
+  ```
+
+  This explains the ascending order, as well as why the function doesn't return anything at all.
+
+  ```pseudo
+  - fibonacciNumbers(2) // returns [1, 2]
+  - fibonacciNumbers(3) // logs 3
+  - fibonacciNumbers(4) // logs 4
+  - fibonacciNumbers(5) // logs 5
+  ```
+
+  In order to return something, the recursive call needs a `return` statement as well.
+
+  Let's try returning the function itself.
+
+  ```js
+  function fibonacciNumbers(n) {
+    if (n <= 2) {
+      return [1, 2];
+    } else {
+      return fibonacciNumbers(n - 1);
+    }
+  }
+
+  fibonacciNumbers(5); // [1, 2]
+  ```
+
+  Why `[1, 2]`? Let's re-consider the stack, where each function is popped in order
+
+  ```pseudo
+  - fibonacciNumbers(2) // returns [1, 2]
+  - fibonacciNumbers(3) // returns [1, 2]
+  - fibonacciNumbers(4) // returns [1, 2]
+  - fibonacciNumbers(5) // returns [1, 2]
+  ```
+
+  It's as if the starting value is passed from function to function, without the slightest modification.
+
+  With another trivial example, let's try modifying this value.
+
+  ```js
+  function fibonacciNumbers(n) {
+    if (n <= 2) {
+      return [1, 2];
+    } else {
+      const sequence = fibonacciNumbers(n - 1);
+      return [...sequence, n];
+    }
+  }
+
+  fibonacciNumbers(5); // [1, 2, 3, 4, 5]
+  ```
+
+  Running through the stack one step at a time
+
+  ```pseudo
+  - fibonacciNumbers(2) // returns [1, 2]
+  - fibonacciNumbers(3) // returns [1, 2, 3]
+  - fibonacciNumbers(4) // returns [1, 2, 3, 4]
+  - fibonacciNumbers(5) // returns [1, 2, 3, 4, 5]
+  ```
+
+  Each function receives an array, and then appends `n` at the very end.
+
+  Here we are appending `n`, but in our instance and for Fibonacci's sequence, we are more interested in adding the sum of the previous two items. Repeating the logic developed in the `for` loop:
+
+  ```js
+  function fibonacciNumbers(n) {
+    if (n <= 2) {
+      return [1, 2];
+    } else {
+      const sequence = fibonacciNumbers(n - 1);
+      const [a, b] = sequence.slice(-2);
+      return [...sequence, a + b];
+    }
+  }
+
+  fibonacciNumbers(5); // [1, 2, 3, 5, 8]
+  ```
+
+To be completely honest, I wrote the function and it still looks alien to me. Considering the stack one last time might help though:
+
+```pseudo
+fibonacciNumbers(5)
+
+n = 5
+  sequence = fibonacciNumbers(4)
+  + the sum of the last two items
+
+n = 4
+  sequence = fibonacciNumbers(3)
+  + the sum of the last two items
+
+n = 3
+  sequence = fibonacciNumbers(2)
+  + the sum of the last two items
+
+n = 2
+  [1, 2]
+```
+
+Executing the functions in the stack's order (remember, last in, first out)
+
+```pseudo
+n = 2
+  [1, 2]
+
+n = 3
+  + the sum of the last two items (1, 2)
+  [1, 2, 3]
+
+n = 4
+  + the sum of the last two items (2, 3)
+  [1, 2, 3, 5]
+
+n = 5
+  + the sum of the last two items (3, 5)
+  [1, 2, 3, 5, 8]
 ```
 
 ## Wrap Up
 
-With or without recursion, `fib` describes as many as Fibonacci's numbers as specified by the input number. Adding only the _even_ numbers together is eerily similar to the `reduce` function developed in the previous problem.
+With or without recursion, the current function describes as many Fibonacci's numbers as specified by the input value. Adding only the _even_ numbers together is eerily similar to the `reduce` function designed [in the previous problem](https://github.com/borntofrappe/project-euler/tree/master/001%20-%20Multiples%20of%203%20and%205), adding every multiple of 3 and 5.
 
 ```js
-return multiples.reduce((acc, curr) => acc + curr, 0);
+return arr.reduce((acc, curr) => acc + curr, 0);
 ```
 
-Instead of adding every item for the array however, the value is considered only if the modulo operator describes an even value.
+Instead of adding every number however, the current item is considered only if the modulo operator describes an even value.
 
 ```js
-return fib.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
+return arr.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
 ```
 
-Bringing us to the final solution.
+Leading us to the final solution.
 
-With recursion:
+- With a `for` loop:
 
-```js
-function fiboEvenSum(n) {
-  function fibonacciNumbers(n) {
-    if (n <= 2) {
-      return [1, 2];
-    } else {
-      const fib = fibonacciNumbers(n - 1);
-      const [a, b] = fib.slice(-2);
-      return [...fib, a + b];
+  ```js
+  function fiboEvenSum(n) {
+    const sequence = [1, 2];
+    for (let i = sequence.length; i < n; i += 1) {
+      const [a, b] = sequence.slice(-2);
+      sequence.push(a + b);
     }
+    return sequence.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
   }
-  return fibonacciNumbers(n).reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
-}
-```
+  ```
 
-Or without:
+- With recursion:
 
-```js
-function fiboEvenSum(n) {
-  const fib = [1, 2];
-  for (let i = fib.length; i < n; i += 1) {
-    const [a, b] = fib.slice(-2);
-    fib.push(a + b);
+  ```js
+  function fiboEvenSum(n) {
+    function fibonacciNumbers(n) {
+      if (n <= 2) {
+        return [1, 2];
+      } else {
+        const sequence = fibonacciNumbers(n - 1);
+        const [a, b] = sequence.slice(-2);
+        return [...sequence, a + b];
+      }
+    }
+    return fibonacciNumbers(n).reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
   }
-  return fib.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
-}
-```
+  ```
+
+  `reduce` is here applied to the return value of the recursive function. A function which ultimately repeats the logic described in the `for` loop, that is appending the sum of the preceding two values, starting from `[1, 2]`, until the array has `n` items.
+
+---
+
+I don't pretend to fully understand recursion, nor the implications of nesting a function in another one. Perhaps out of familiarity, I would lean toward the first solution, but both snippets complete the challenge.
+
+I am aware the section on recursion is more rambling than one would hope, and if you have any suggestions, improvements or plain text feedback, let me know [@borntofrappe](https://twitter.com/borntofrappe).
