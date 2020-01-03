@@ -18,3 +18,138 @@ function fiboEvenSum(n) {
 
 fiboEvenSum(10);
 ```
+
+## Notes
+
+Like the first challenge, [exhaustively documented in this repo](https://github.com/borntofrappe/project-euler/tree/master/001%20-%20Multiples%20of%203%20and%205), the problem asks to first describe a set of numbers, and then add them all together.
+
+Given the similarity, I decided to explore _recursion_ instead of using the same logic through a `for` loop.
+
+## Fibonacci's Numbers
+
+Adding only the _even_ numbers requires a minor modification to the `reduce` function, so that the most challenging part of the problem is creating an array describing Fibonacci's numbers.
+
+From the problem's description:
+
+- start with `[1, 2]`;
+
+- append a number which is the sum of the two preceding values;
+
+```pseudo
+1 2
+   3
+    5
+     8
+      ...
+```
+
+Starting _without_ recursion, I could see this construct as built as follows:
+
+```js
+function fibonacciNumbers(n) {
+  // starting values
+  const fib = [1, 2];
+  // until the array has n items
+  for (let i = fib.length; i < n; i += 1) {
+    // retrieve the last two items and append their sum to the array
+    const [a, b] = fib.slice(-2);
+    fib.push(a + b);
+  }
+  return fib;
+}
+```
+
+Using a negative integer in the `.slice()` function allows to retrieve the items from the end of the array, which is utterly convenient.
+
+This already solves the section, providing the expected sequence:
+
+```js
+console.log(fibonacciNumbers(10)); // [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+```
+
+Since I wanted to explore _recursion_ however, I'll explore Fibonacci's numbers a little further. If you are satisfied with the solution using the `for` loop, feel free to skip to the wrap up section. If you are willing to indulge in a verbose paragraph or two, thanks for tagging along for the ride.
+
+## Recursion
+
+Luckily for me the [freeCodeCamp curriculum](https://www.freecodecamp.org/learn) provides a few challenges to introduce the concept:
+
+- [Replace Loops using Recursion](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/replace-loops-using-recursion)
+
+- [Use Recursion to Create a Countdown](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/use-recursion-to-create-a-countdown)
+
+- [Use Recursion to Create a Range of Numbers](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/use-recursion-to-create-a-range-of-numbers)
+
+These are not covered in the section, but heavily influence the final solution.
+
+```js
+function fibonacciNumbers(n) {
+  if (n <= 2) {
+    return [1, 2];
+  } else {
+    const fib = fibonacciNumbers(n - 1);
+    const [a, b] = fib.slice(-2);
+    return [...fib, a + b];
+  }
+}
+```
+
+```js
+function fiboEvenSum(n) {
+  function fibonacciNumbers(n) {
+    if (n <= 2) {
+      return [1, 2];
+    } else {
+      const fib = fibonacciNumbers(n - 1);
+      const [a, b] = fib.slice(-2);
+      return [...fib, a + b];
+    }
+  }
+  return fibonacciNumbers(n).reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
+}
+```
+
+## Wrap Up
+
+With or without recursion, `fib` describes as many as Fibonacci's numbers as specified by the input number. Adding only the _even_ numbers together is eerily similar to the `reduce` function developed in the previous problem.
+
+```js
+return multiples.reduce((acc, curr) => acc + curr, 0);
+```
+
+Instead of adding every item for the array however, the value is considered only if the modulo operator describes an even value.
+
+```js
+return fib.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
+```
+
+Bringing us to the final solution.
+
+With recursion:
+
+```js
+function fiboEvenSum(n) {
+  function fibonacciNumbers(n) {
+    if (n <= 2) {
+      return [1, 2];
+    } else {
+      const fib = fibonacciNumbers(n - 1);
+      const [a, b] = fib.slice(-2);
+      return [...fib, a + b];
+    }
+  }
+  return fibonacciNumbers(n).reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
+}
+```
+
+Or without:
+
+```js
+function fiboEvenSum(n) {
+  const fib = [1, 2];
+  for (let i = fib.length; i < n; i += 1) {
+    const [a, b] = fib.slice(-2);
+    fib.push(a + b);
+  }
+  return fib.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
+}
+```
