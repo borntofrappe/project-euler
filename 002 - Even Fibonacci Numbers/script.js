@@ -1,14 +1,14 @@
-function multiplesOf3and5(number) {
-  const pattern = [3, 2, 1, 3, 1, 2, 3];
-  let index = 0;
-
-  const multiples = [];
-
-  for(let i = 3; i < number; i += pattern[index]) {
-    multiples.push(i)
-    index = (index + 1) % pattern.length;
+function fiboEvenSum(n) {
+  // starting values
+  const fib = [1, 2];
+  // until the array has n items
+  for (let i = fib.length; i < n; i += 1) {
+    // retrieve the last two items and append their sum to the array
+    const [a, b] = fib.slice(-2);
+    fib.push(a + b);
   }
-
-  return multiples.reduce((acc, curr) => acc + curr, 0);
+  // return the sum of only the even numbers
+  return fib.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
 }
-console.log(multiplesOf3and5(100));
+
+console.log(fiboEvenSum(10));
