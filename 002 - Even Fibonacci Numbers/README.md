@@ -341,11 +341,13 @@ Leading us to the final solution.
         return [...sequence, a + b];
       }
     }
-    return fibonacciNumbers(n).reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
+
+    const sequence = fibonacciNumbers(n);
+    return sequence.reduce((acc, curr) => (curr % 2 === 0 ? acc + curr : acc), 0);
   }
   ```
 
-  `reduce` is here applied to the return value of the recursive function. A function which ultimately repeats the logic described in the `for` loop, that is appending the sum of the preceding two values, starting from `[1, 2]`, until the array has `n` items.
+  `reduce` is here applied to the value returned by the recursive function. A function which ultimately repeats the logic described in the `for` loop, that is appending the sum of the preceding two values, starting from `[1, 2]`, until the array has `n` items.
 
 ---
 
