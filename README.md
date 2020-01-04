@@ -16,6 +16,6 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | ------ | ---------------------- | :------: | :---: |
 | 001    | Multiples of 3 and 5   |    ✔️    |  ✔️   |
 | 002    | Even Fibonacci Numbers |    ✔️    |  ✔️   |
-| 003    | Largest prime factor   |    ❌    |  ❌   |
+| 003    | Largest prime factor   |    ❓    |  ❌   |
 
 <!-- | 00x|Title|❌|❌| -->
