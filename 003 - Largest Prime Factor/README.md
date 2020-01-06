@@ -1,4 +1,4 @@
-# [Largest prime factor](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-3-largest-prime-factor)
+# [Largest Prime Factor](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-3-largest-prime-factor)
 
 ## ⚠️ Be Advised ⚠️
 

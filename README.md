@@ -12,10 +12,11 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 
 ## Problems
 
-| Number | Title                  | Solution | Notes |
-| ------ | ---------------------- | :------: | :---: |
-| 001    | Multiples of 3 and 5   |    ✔️    |  ✔️   |
-| 002    | Even Fibonacci Numbers |    ✔️    |  ✔️   |
-| 003    | Largest prime factor   |    ✔️    |  ✔️   |
+| Number | Title                      | Solution | Notes |
+| ------ | -------------------------- | :------: | :---: |
+| 001    | Multiples of 3 and 5       |    ✔️    |  ✔️   |
+| 002    | Even Fibonacci Numbers     |    ✔️    |  ✔️   |
+| 003    | Largest Prime Factor       |    ✔️    |  ✔️   |
+| 004    | Largest Palindrome Product |    ❌    |  ❌   |
 
 <!-- | 00x|Title|❌|❌| -->
