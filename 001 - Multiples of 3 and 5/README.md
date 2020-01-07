@@ -134,6 +134,7 @@ Alas, this means we do care about the order.
 ```js
 // array of multiples up to 100 (to have a larger sample)
 const multiples = multiplesOf3and5(100);
+
 // spread the values in a new array to avoid mutating the original one
 const sortedMultiples = [...multiples]
   // sort by ascending order
@@ -185,8 +186,11 @@ function multiplesOf3and5(number) {
 
 It looks convoluted, but mostly due to the comeback of the modulo operator. The main issue incrementing the `index` variable is referring to a value outside of the array. By using the modulo operator, we make sure that index is "set back" once the variable exceeds the array's length.
 
-```code
+Once it reaches the last item in the array, at index `5`, the variable is assigned a value of `0`:
 
+```code
+index = 5
+index = (5 + 1) % 6 = 0
 ```
 
 I use a `while` loop here, but this is out of familiarity more than anything. Which begs the question: is it possible to replicate the same functionality with a `for` loop? More specifically: is it possible to update the expression of the `for` loop _in_ the `for` loop?
@@ -284,6 +288,8 @@ function multiplesOf3and5(number) {
   return multiples.reduce((acc, curr) => acc + curr, 0);
 }
 ```
+
+---
 
 What about _recursion_? I'm still trying to wrap my head around a function calling itself, so excuse this blatant omission.
 

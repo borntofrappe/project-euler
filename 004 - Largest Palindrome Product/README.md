@@ -251,7 +251,7 @@ function threeDigitPalinrome(palindrome) {
 }
 ```
 
-As stated in the comment, the logic is far from developed. Consider for instance, and as an extreme case `3*2`. This is a value that is tested, and tested for nothing. With a series of `break` statements, we can improve the structure of the loops so that:
+As stated in the comment, the logic is far from developed. Consider for instance, and as an extreme case, `3*2`. This is a value that is tested, and tested for nothing. With a series of `break` statements, we can improve the structure of the loops so that:
 
 - the inner loop stops running if the product is already less than the palindrome
 
@@ -292,7 +292,52 @@ console.log(threeDigitPalinrome(906609)); // true
 
 ### Wrap Up
 
-We should be able to wrap everything together in the provided function
+We should be able to wrap everything together in the provided function.
+
+```js
+function largestPalindromeProduct(n) {
+  // Good luck!
+  return true;
+}
+```
+
+Let's start by identifying the largest number of `n` digits.
+
+```js
+function largestPalindromeProduct(n) {
+  // largest n digit number
+  const largestNumberString = Array(n)
+    .fill(9)
+    .join("");
+
+  const largestNumber = parseInt(largestNumberString, 10);
+}
+```
+
+I didn't realize this sooner, but it is also helpful to have a referenec to the smallest values of `n` digits. Given the challenge, we should only consider palindromes, multiplicands and multipliers of `n` digits. This means the previous loops where rather incorrect in continuing until `i` was to be `1`.
+
+```js
+function largestPalindromeProduct(n) {
+  // largest n digit number
+  const largestNumberString = Array(n)
+    .fill(9)
+    .join("");
+
+  const largestNumber = parseInt(largestNumberString, 10);
+
+  // smallest n digit number
+  const smallestNumberString = Array(n)
+    .fill("")
+    .map((val, index) => (index === 0 ? 1 : 0))
+    .join("");
+
+  const smallestNumber = parseInt(smallestNumberString, 10);
+}
+```
+
+The smallest `n` digit value is created as one, followed by `n-1` zero(s).
+
+With these newfound values, a palindrome is considered from `largestNumber^2` until `smallestNumber^2`
 
 ```js
 function largestPalindromeProduct(n) {
@@ -311,12 +356,74 @@ function largestPalindromeProduct(n) {
 
   const smallestNumber = parseInt(smallestNumberString, 10);
 
-  // loop finding a palindrome starting from largestNumber^2
-  for (let i = largestNumber * largestNumber; i > 0; i -= 1) {
-    // find a palindrome
+  for (let i = largestNumber * largestNumber; i > smallestNumber * smallestNumber; i -= 1) {
+    // check for palindrome
+  }
+}
+```
+
+The logic distilled in the `palindromeChecker` function can be then described in the `for` loop, analyzing the two halves of the string making up the palindrome.
+
+```js
+function largestPalindromeProduct(n) {
+  // largest n digit number
+  const largestNumberString = Array(n)
+    .fill(9)
+    .join("");
+
+  const largestNumber = parseInt(largestNumberString, 10);
+
+  // smallest n digit number
+  const smallestNumberString = Array(n)
+    .fill("")
+    .map((val, index) => (index === 0 ? 1 : 0))
+    .join("");
+
+  const smallestNumber = parseInt(smallestNumberString, 10);
+
+  for (let i = largestNumber * largestNumber; i > smallestNumber * smallestNumber; i -= 1) {
+    // check for palindrome
+    // to find a palindrome, coerce the number into a string and consider the characters before/after the halfway point
     const candidate = i.toString();
     const { length } = candidate;
 
+    // reverse the order of one of the two halves to check if the two mirror one another
+    const firstHalf = candidate.slice(0, Math.floor(length / 2));
+    const secondHalf = candidate
+      .slice(Math.ceil(length / 2))
+      .split("")
+      .reverse()
+      .join("");
+  }
+}
+```
+
+If a palindrome is then found, we proceed by describing the two nested loops.
+
+```js
+function largestPalindromeProduct(n) {
+  // largest n digit number
+  const largestNumberString = Array(n)
+    .fill(9)
+    .join("");
+
+  const largestNumber = parseInt(largestNumberString, 10);
+
+  // smallest n digit number
+  const smallestNumberString = Array(n)
+    .fill("")
+    .map((val, index) => (index === 0 ? 1 : 0))
+    .join("");
+
+  const smallestNumber = parseInt(smallestNumberString, 10);
+
+  for (let i = largestNumber * largestNumber; i > smallestNumber * smallestNumber; i -= 1) {
+    // check for palindrome
+    // to find a palindrome, coerce the number into a string and consider the characters before/after the halfway point
+    const candidate = i.toString();
+    const { length } = candidate;
+
+    // reverse the order of one of the two halves to check if the two mirror one another
     const firstHalf = candidate.slice(0, Math.floor(length / 2));
     const secondHalf = candidate
       .slice(Math.ceil(length / 2))
@@ -342,6 +449,69 @@ function largestPalindromeProduct(n) {
     }
   }
 }
-
-largestPalindromeProduct(2);
 ```
+
+Completing the problem at hand.
+
+```js
+function largestPalindromeProduct(n) {
+  // largest n digit number
+  const largestNumberString = Array(n)
+    .fill(9)
+    .join("");
+
+  const largestNumber = parseInt(largestNumberString, 10);
+
+  // smallest n digit number
+  const smallestNumberString = Array(n)
+    .fill("")
+    .map((val, index) => (index === 0 ? 1 : 0))
+    .join("");
+
+  const smallestNumber = parseInt(smallestNumberString, 10);
+
+  // loop finding a palindrome from largestNumber^2 down to smallestNumber^2
+  for (let i = largestNumber * largestNumber; i > smallestNumber * smallestNumber; i -= 1) {
+    // to find a palindrome, coerce the number into a string and consider the characters before/after the halfway point
+    const candidate = i.toString();
+    const { length } = candidate;
+
+    // reverse the order of one of the two halves to check if the two mirror one another
+    const firstHalf = candidate.slice(0, Math.floor(length / 2));
+    const secondHalf = candidate
+      .slice(Math.ceil(length / 2))
+      .split("")
+      .reverse()
+      .join("");
+
+    // once a palindrome is found, set up the nested loop to find if the palindrome can be the result of the multiplication of two `n` digit numbers
+    if (firstHalf === secondHalf) {
+      // from the largest to the smallest n-digit number
+      for (let j = largestNumber; j >= smallestNumber; j -= 1) {
+        // if the j^2 is already smaller than the palindrome, checking for smaller j values is futile
+        // exit the loop to consider the next palindrome
+        if (j * j < i) {
+          break;
+        }
+        // from the n-digit number to the smallest value
+        for (let k = j; k >= smallestNumber; k -= 1) {
+          // if the product matches the palindrome, return this value
+          if (j * k === i) {
+            return i;
+          }
+          // if the product is smaller than the palindrome, checking for smaller k values is futile
+          // exit the loop to consider a smaller j value
+          if (j * k < i) {
+            break;
+          }
+        }
+      }
+    }
+  }
+  return "Palindrome not found";
+}
+```
+
+---
+
+I decided to include a final `return` statement following the `for` loop, but more for aesthetic purposes than practical reasons. Given my limited of knowledge on palindromes however, it might actually be possible not to find a palindrome product. Is it? You can let me know [@borntofrappe](https://twitter.com/borntofrappe).
