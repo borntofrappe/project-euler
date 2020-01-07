@@ -18,5 +18,6 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 002    | Even Fibonacci Numbers     |    ✔️    |  ✔️   |
 | 003    | Largest Prime Factor       |    ✔️    |  ✔️   |
 | 004    | Largest Palindrome Product |    ✔️    |  ✔️   |
+| 005    | Smallest multiple          |    ❌    |  ❌   |
 
 <!-- | 00x|Title|❌|❌| -->
