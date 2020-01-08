@@ -189,6 +189,8 @@ smallMult(7);
 
 Let's try to recreate this approach in code.
 
+### Prime Factors
+
 Starting from a value `n`, we need to consider the prime numbers making up the value.
 
 ```js
@@ -210,110 +212,7 @@ I leaned on recursion here, and despite the repeated use it still feels alien. T
 
 If such a prime is found, the function calls itself with the result of the division, merging the result and the newfound prime in an array. The base case for `n <= 1` returns an empty array, which leads to the final result being an array of the desired values.
 
-Extending this logic in the given function:
-
-```js
-function primeFactorsUpTo(n) {
-  function primeFactors(x) {
-    if (x <= 1) {
-      return [];
-    }
-    for (let i = 2; i <= x; i += 1) {
-      if (x % i === 0) {
-        return [i, ...primeFactors(x / i)];
-      }
-    }
-  }
-
-  const primes = [];
-  for (let i = n; i > 1; i -= 1) {
-    primes.push(...primeFactors(i));
-  }
-
-  return primes;
-}
-
-primeFactorsUpTo(7); // [7, 2, 3, 5, 2, 2, 3, 2]
-```
-
-Here I collect the prime numbers making up the numbers from `n` down to `2`. The issue is then how to "keep" only the prime numbers which are strictly necessary.
-
-To do this, the contents of the `for` loop and the very structure of the `primes` array need to be modified.
-
-```js
-const primes = [];
-for (let i = n; i > 1; i -= 1) {
-  primes.push(...primeFactors(i));
-}
-```
-
-Instead of storing the numbers directly in an array, the idea is to create a data structure describing the prime number _and_ the number of times said value appears.
-
-Considering the previous array of prime numbers:
-
-```js
-const factors = [7, 2, 3, 5, 2, 2, 3, 2].reduce((acc, curr) => {
-  if (acc[curr]) {
-    acc[curr] += 1;
-  } else {
-    acc[curr] = 1;
-  }
-  return acc;
-}, {});
-
-console.log(factors); // {7: 1, 2: 4, 3: 2, 5: 1}
-```
-
-The `reduce` function creates an object, where the keys are the prime numbers, and the values describe the respective absolute frequency.
-
-Applied to every iteration, the logic can be expanded to create several objects.
-
-```js
-const primes = [];
-for (let i = n; i > 1; i -= 1) {
-  const factors = primeFactors(i).reduce((acc, curr) => {
-    // if the key exist, increment the counter
-    if (acc[curr]) {
-      acc[curr] += 1;
-    } else {
-      // set up the key
-      acc[curr] = 1;
-    }
-    return acc;
-  }, {});
-
-  primes.push(factors);
-}
-```
-
-From this array of objects, the challenge is then keeping only the greatest value for each individual key. Here I managed this with another `reduce` function, which instead of incrementing the value of each object, retains the larger value for the same key.
-
-```js
-const mostFrequentPrimes = primes.reduce((acc, curr) => {
-  // Object.entries()[0] to consider the first (and only) set of property-value pairs
-  // Object.entries returns a multidimensional array
-  const [prime, frequency] = Object.entries(curr)[0];
-  // if the key exist, consider the greater value between the current and previous frequency
-  if (acc[prime]) {
-    acc[prime] = frequency > acc[prime] ? frequency : acc[prime];
-  } else {
-    acc[prime] = frequency;
-  }
-  return acc;
-}, {});
-```
-
-With this construct, the solution is provided by yet another `reduce` function, which consider the prime numbers and the absolute frequencies together.
-
-```js
-Object.entries(mostFrequentPrimes).reduce((acc, curr) => {
-  const [prime, frequency] = curr;
-  return acc * prime * frequency;
-}, 1);
-```
-
-Notice that `Object.entries` is used on the entire object, so to create a multidimensional array contemplating the key-value pairs.
-This leads to the final solution:
+### Solution
 
 ```js
 function smallestMult(n) {
@@ -329,44 +228,59 @@ function smallestMult(n) {
     }
   }
 
-  // array of objects describing the prime numbers and their absolute frequency
+  // array in which to describe the prime numbers and their frequency
   const primes = [];
   for (let i = n; i > 1; i -= 1) {
-    const factors = primeFactors(i).reduce((acc, curr) => {
-      // if the key exist, increment the counter
-      if (acc[curr]) {
-        acc[curr] += 1;
+    // array with the prime values
+    const factors = primeFactors(i);
+
+    /* array describing the prime numbers and their absolute frequency
+    [
+      prime: frequency,
+      prime: frequency,
+      ...
+    ]
+    */
+
+    const frequentPrimes = factors.reduce((acc, curr) => {
+      // if the prime is already considered, increment the matching value
+      const index = acc.findIndex(([prime]) => prime === curr);
+      if (index !== -1) {
+        acc[index][1] += 1;
       } else {
-        // set up the key
-        acc[curr] = 1;
+        acc.push([curr, 1]);
       }
       return acc;
-    }, {});
+    }, []);
 
-    primes.push(factors);
+    primes.push(...frequentPrimes);
   }
 
-  // object considering the prime numbers with greatest absolute frequency
+  /* array considering the prime numbers with greatest absolute frequency
+    [
+      prime: greatestFrequency,
+      prime: greatestFrequency,
+      ...
+    ]
+  */
   const mostFrequentPrimes = primes.reduce((acc, curr) => {
-    const entries = Object.entries(curr);
-    entries.forEach(([prime, frequency]) => {
-      // if the key exist, consider the greater value between the current and previous frequency
-      if (acc[prime]) {
-        acc[prime] = frequency > acc[prime] ? frequency : acc[prime];
-      } else {
-        acc[prime] = frequency;
-      }
-    });
+    // if the prime is already considered, keep the greater between the two values
+    const index = acc.findIndex(([prime]) => prime === curr[0]);
+    if (index !== -1) {
+      acc[index][1] = Math.max(acc[index][1], curr[1]);
+    } else {
+      acc.push([curr[0], curr[1]]);
+    }
     return acc;
-  }, {});
+  }, []);
 
-  // smallest multiple, as the product of the prime numbers and their absolute frequency
-  return Object.entries(mostFrequentPrimes).reduce((acc, curr) => {
+  /* smallest multiple, as the product of the prime numbers and their absolute frequency
+   */
+  return mostFrequentPrimes.reduce((acc, curr) => {
     const [prime, frequency] = curr;
     return acc * Math.pow(prime, frequency);
   }, 1);
 }
-
 console.log(smallestMult(50)); // 3.099044504245997e+21
 ```
 

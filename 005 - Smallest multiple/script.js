@@ -11,39 +11,55 @@ function smallestMult(n) {
     }
   }
 
-  // array of objects describing the prime numbers and their absolute frequency
+  // array in which to describe the prime numbers and their frequency
   const primes = [];
   for (let i = n; i > 1; i -= 1) {
-    const factors = primeFactors(i).reduce((acc, curr) => {
-      // if the key exist, increment the counter
-      if (acc[curr]) {
-        acc[curr] += 1;
+    // array with the prime values
+    const factors = primeFactors(i);
+
+    /* array describing the prime numbers and their absolute frequency
+    [
+      prime: frequency,
+      prime: frequency,
+      ...
+    ]
+    */
+
+    const frequentPrimes = factors.reduce((acc, curr) => {
+      // if the prime is already considered, increment the matching value
+      const index = acc.findIndex(([prime]) => prime === curr);
+      if (index !== -1) {
+        acc[index][1] += 1;
       } else {
-        // set up the key
-        acc[curr] = 1;
+        acc.push([curr, 1]);
       }
       return acc;
-    }, {});
+    }, []);
 
-    primes.push(factors);
+    primes.push(...frequentPrimes);
   }
 
-  // object considering the prime numbers with greatest absolute frequency
+  /* array considering the prime numbers with greatest absolute frequency
+    [
+      prime: greatestFrequency,
+      prime: greatestFrequency,
+      ...
+    ]
+  */
   const mostFrequentPrimes = primes.reduce((acc, curr) => {
-    const entries = Object.entries(curr);
-    entries.forEach(([prime, frequency]) => {
-      // if the key exist, consider the greater value between the current and previous frequency
-      if (acc[prime]) {
-        acc[prime] = frequency > acc[prime] ? frequency : acc[prime];
-      } else {
-        acc[prime] = frequency;
-      }
-    } );
+      // if the prime is already considered, keep the greater between the two values
+    const index = acc.findIndex(([prime]) => prime === curr[0]);
+    if(index !== -1) {
+      acc[index][1] = Math.max(acc[index][1], curr[1]);
+    } else {
+      acc.push([curr[0], curr[1]]);
+    }
     return acc;
-  }, {});
+  }, []);
 
-  // smallest multiple, as the product of the prime numbers and their absolute frequency
-  return Object.entries(mostFrequentPrimes).reduce((acc, curr) => {
+  /* smallest multiple, as the product of the prime numbers and their absolute frequency
+  */
+  return mostFrequentPrimes.reduce((acc, curr) => {
     const [prime, frequency] = curr;
     return acc * Math.pow(prime, frequency);
   }, 1);
