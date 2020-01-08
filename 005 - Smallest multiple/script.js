@@ -1,26 +1,47 @@
 function smallestMult(n) {
+  // function recursively providing the prime numbers making up the input x
+  function primeFactors(x) {
+    if (x <= 1) {
+      return [];
+    }
+    for (let i = 2; i <= x; i += 1) {
+      if (x % i === 0) {
+        return [i, ...primeFactors(x / i)];
+      }
+    }
+  }
+
+  // array of objects describing the prime numbers and their absolute frequency
   const primes = [];
-  for(let i = 2; i <= n; i += 1) {
-    const isMultiple = primes.find(prime => i % prime === 0);
-    if(!isMultiple) {
-      primes.push(i);
-    }
+  for (let i = n; i > 1; i -= 1) {
+    const factors = primeFactors(i).reduce((acc, curr) => {
+      if (acc[curr]) {
+        acc[curr] += 1;
+      } else {
+        acc[curr] = 1;
+      }
+      return acc;
+    }, {});
+
+    primes.push(factors);
   }
 
-  const uniqueFactors = [];
-  for(let i = n; i > Math.floor(n / 2); i-= 1) {
-    const isFactor = uniqueFactors.find(factor => factor % i === 0);
-    if(!isFactor) {
-      uniqueFactors.push(i);
+  // object considering the prime numbers with greatest absolute frequency
+  const mostFrequentPrimes = primes.reduce((acc, curr) => {
+    const [prime, counter] = Object.entries(curr)[0];
+    if (acc[prime]) {
+      const value = Math.max(acc[prime], counter);
+      acc[prime] = value;
+    } else {
+      acc[prime] = counter;
     }
-  }
+    return acc;
+  }, {});
 
-  const primesProduct = primes.reduce((acc, curr) => acc * curr, 1);
-  let solution = primesProduct;
-  while(!uniqueFactors.every(factor => solution % factor === 0)) {
-    solution += primesProduct;
-  }
-  return solution;
+  // smallest multiple
+  return Object.entries(mostFrequentPrimes).reduce((acc, [prime, counter]) => {
+    return acc * prime * counter;
+  }, 1);
 }
 
-console.log(smallestMult(40));
+smallestMult(7);
