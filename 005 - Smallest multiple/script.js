@@ -11,58 +11,40 @@ function smallestMult(n) {
     }
   }
 
-  // array in which to describe the prime numbers and their frequency
+  // array of primes
   const primes = [];
   for (let i = n; i > 1; i -= 1) {
-    // array with the prime values
-    const factors = primeFactors(i);
-
-    /* array describing the prime numbers and their absolute frequency
-    [
-      prime: frequency,
-      prime: frequency,
-      ...
-    ]
-    */
-
-    const frequentPrimes = factors.reduce((acc, curr) => {
-      // if the prime is already considered, increment the matching value
-      const index = acc.findIndex(([prime]) => prime === curr);
-      if (index !== -1) {
-        acc[index][1] += 1;
-      } else {
-        acc.push([curr, 1]);
-      }
-      return acc;
-    }, []);
-
-    primes.push(...frequentPrimes);
+    primes.push(...primeFactors(i));
   }
 
-  /* array considering the prime numbers with greatest absolute frequency
-    [
-      prime: greatestFrequency,
-      prime: greatestFrequency,
-      ...
-    ]
-  */
-  const mostFrequentPrimes = primes.reduce((acc, curr) => {
-      // if the prime is already considered, keep the greater between the two values
+  // multidimensional array describing the frequency of the consecutive primes
+  const primesFrequency = primes.reduce((acc, curr) => {
+    // use the length of the array to consider the last item
+    const { length } = acc;
+    // if the last item describes the same prime, increment its counter
+    if (length > 0 && acc[length - 1][0] === curr) {
+      acc[length - 1][1] += 1;
+      // else add a new array describing the prime
+    } else {
+      acc.push([curr, 1]);
+    }
+    return acc;
+  }, []);
+
+  // multidimensional array describing the consecutive primes with greatest frequency
+  const primesGreatestFrequency = primesFrequency.reduce((acc, curr) => {
+    // index of the prime in the acc array
     const index = acc.findIndex(([prime]) => prime === curr[0]);
-    if(index !== -1) {
+    if (index !== -1) {
+      // update the frequency of the prime to keep the greater between the two
       acc[index][1] = Math.max(acc[index][1], curr[1]);
     } else {
+      // add the prime number with
       acc.push([curr[0], curr[1]]);
     }
     return acc;
   }, []);
 
-  /* smallest multiple, as the product of the prime numbers and their absolute frequency
-  */
-  return mostFrequentPrimes.reduce((acc, curr) => {
-    const [prime, frequency] = curr;
-    return acc * Math.pow(prime, frequency);
-  }, 1);
+  return primesGreatestFrequency.reduce((acc, curr) => acc * Math.pow(curr[0], curr[1]), 1);
 }
-
 console.log(smallestMult(50));
