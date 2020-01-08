@@ -4,11 +4,11 @@
 
 In this repo you find a few scripts:
 
-- `failure.js` describes a rather reckless and inefficient approach, which still seems to work for smaller `n` values
+- `failure.js` describes a rather reckless and inefficient approach, with the potential of causing infinite loops for larger values
 
-- `attempt.js` builds on top of the existing logic to provide a more efficient, and hopefully valid, solution
+- `attempt.js` builds on top of the existing logic to provide a solution which passes the testing suite without warning
 
-- `script.hs` describes my final take on the problem. It focuses more on Math and should lead to the most efficient approach among the three
+- `script.hs` describes my final take on the problem. It focuses more on math and should lead to the most solid approach among the three
 
 ## Problem
 
@@ -145,7 +145,7 @@ Through these instances, I realized that prime numbers are at the heart and cent
 smallMult(7);
 ```
 
-- loop from the input number down to `1`
+- loop from `7` down to `1`
 
 - for each number, consider the prime numbers making up the value
 
@@ -159,15 +159,13 @@ smallMult(7);
 
   ...
 
-- If you find a prime number which is already considered, skip it. A small precaution though: skip the _individual_ value.
+- if you find a prime number which is already considered, skip it. A small precaution though: skip the _individual_ value.
 
   - 4: 2 and 2, consider only one of the two numbers. The copy is already considered in `3*2`
 
 Essentially, we are storing prime numbers which are responsible for making up the different values. In light of this, it makes sense to "keep" only one copy of the prime number. We compute `4` as `2*2`, and one is already available. We need "only" two copies of the prime number.
 
-Once they are collected, it makes sense that the smallest multiple is just the multiplication of the prime numbers collected along the way.
-
-Which leads us back to the cryptic comment following each instance:
+Once they are collected, it makes sense that the smallest multiple is just the multiplication of the prime numbers collected along the way. This leads back to the cryptic comment following each instance:
 
 ```js
 smallMult(7);
@@ -189,7 +187,7 @@ smallMult(7);
 */
 ```
 
-Let's try to follow this approach in code.
+Let's try to recreate this approach in code.
 
 Starting from a value `n`, we need to consider the prime numbers making up the value.
 
@@ -208,7 +206,7 @@ function primeFactors(n) {
 primeFactors(12); // [2 2 3]
 ```
 
-I leaned on recursion here, and despite the repeated use it still feels alien. The idea is to find the first number for which `n` can be evenly divided. This is without a doubt a prime number, as the loop cannot reach a non-prime value before finding a prime which is already a factor for said value. A rather cryptic way to say `primeFactors(12)` cannot reach `4` before finding `2`, a prime,
+I leaned on recursion here, and despite the repeated use it still feels alien. The idea is to find the first number for which `n` can be evenly divided. This is without a doubt a prime number, as the loop cannot reach a non-prime value before finding a prime which is already a factor for said value. A rather elaborate way to say `primeFactors(12)` cannot reach `4` before finding `2`, a prime.
 
 If such a prime is found, the function calls itself with the result of the division, merging the result and the newfound prime in an array. The base case for `n <= 1` returns an empty array, which leads to the final result being an array of the desired values.
 
@@ -249,23 +247,12 @@ for (let i = n; i > 1; i -= 1) {
 }
 ```
 
-Instead of storing the numbers, as-is, the idea is to create a data structure describing the prime number _and_ the number of times said value appears. A counter effectively.
+Instead of storing the numbers directly in an array, the idea is to create a data structure describing the prime number _and_ the number of times said value appears.
 
-Considering a single iteration in the `for` loop, with an arbitrary value of `36`:
+Considering the previous array of prime numbers:
 
 ```js
-function primeFactors(x) {
-  if (x <= 1) {
-    return [];
-  }
-  for (let i = 2; i <= x; i += 1) {
-    if (x % i === 0) {
-      return [i, ...primeFactors(x / i)];
-    }
-  }
-}
-
-const factors = primeFactors(36).reduce((acc, curr) => {
+const factors = [7, 2, 3, 5, 2, 2, 3, 2].reduce((acc, curr) => {
   if (acc[curr]) {
     acc[curr] += 1;
   } else {
@@ -274,10 +261,10 @@ const factors = primeFactors(36).reduce((acc, curr) => {
   return acc;
 }, {});
 
-console.log(factors); // {2: 2, 3: 2}
+console.log(factors); // {7: 1, 2: 4, 3: 2, 5: 1}
 ```
 
-The `reduce` function creates an object, where the keys are the prime numbers, and the values describe the respective counters.
+The `reduce` function creates an object, where the keys are the prime numbers, and the values describe the respective absolute frequency.
 
 Applied to every iteration, the logic can be expanded to create several objects.
 
@@ -285,9 +272,11 @@ Applied to every iteration, the logic can be expanded to create several objects.
 const primes = [];
 for (let i = n; i > 1; i -= 1) {
   const factors = primeFactors(i).reduce((acc, curr) => {
+    // if the key exist, increment the counter
     if (acc[curr]) {
       acc[curr] += 1;
     } else {
+      // set up the key
       acc[curr] = 1;
     }
     return acc;
@@ -297,31 +286,34 @@ for (let i = n; i > 1; i -= 1) {
 }
 ```
 
-The idea is to retain in the data structures, and for each key, the largest value.
+From this array of objects, the challenge is then keeping only the greatest value for each individual key. Here I managed this with another `reduce` function, which instead of incrementing the value of each object, retains the larger value for the same key.
 
 ```js
 const mostFrequentPrimes = primes.reduce((acc, curr) => {
-  const [prime, counter] = Object.entries(curr);
+  // Object.entries()[0] to consider the first (and only) set of property-value pairs
+  // Object.entries returns a multidimensional array
+  const [prime, frequency] = Object.entries(curr)[0];
+  // if the key exist, consider the greater value between the current and previous frequency
   if (acc[prime]) {
-    const value = Math.max(acc[prime], counter);
-    acc[prime] = value;
+    acc[prime] = frequency > acc[prime] ? frequency : acc[prime];
   } else {
-    acc[prime] = counter;
+    acc[prime] = frequency;
   }
   return acc;
 }, {});
 ```
 
-And to finally return the result of the multiplication, considering both prime numbers and their number of occurrences.
+With this construct, the solution is provided by yet another `reduce` function, which consider the prime numbers and the absolute frequencies together.
 
 ```js
-mostFrequentPrimes.reduce((acc, curr) => {
-  const [prime, counter] = Object.entries(curr);
-  return acc * prime * counter;
+Object.entries(mostFrequentPrimes).reduce((acc, curr) => {
+  const [prime, frequency] = curr;
+  return acc * prime * frequency;
 }, 1);
 ```
 
-Leading us to the final solution:
+Notice that `Object.entries` is used on the entire object, so to create a multidimensional array contemplating the key-value pairs.
+This leads to the final solution:
 
 ```js
 function smallestMult(n) {
@@ -341,9 +333,11 @@ function smallestMult(n) {
   const primes = [];
   for (let i = n; i > 1; i -= 1) {
     const factors = primeFactors(i).reduce((acc, curr) => {
+      // if the key exist, increment the counter
       if (acc[curr]) {
         acc[curr] += 1;
       } else {
+        // set up the key
         acc[curr] = 1;
       }
       return acc;
@@ -354,25 +348,28 @@ function smallestMult(n) {
 
   // object considering the prime numbers with greatest absolute frequency
   const mostFrequentPrimes = primes.reduce((acc, curr) => {
-    const [prime, counter] = Object.entries(curr)[0];
-    if (acc[prime]) {
-      const value = Math.max(acc[prime], counter);
-      acc[prime] = value;
-    } else {
-      acc[prime] = counter;
-    }
+    const entries = Object.entries(curr);
+    entries.forEach(([prime, frequency]) => {
+      // if the key exist, consider the greater value between the current and previous frequency
+      if (acc[prime]) {
+        acc[prime] = frequency > acc[prime] ? frequency : acc[prime];
+      } else {
+        acc[prime] = frequency;
+      }
+    });
     return acc;
   }, {});
 
-  // smallest multiple
-  return Object.entries(mostFrequentPrimes).reduce((acc, [prime, counter]) => {
-    return acc * prime * counter;
+  // smallest multiple, as the product of the prime numbers and their absolute frequency
+  return Object.entries(mostFrequentPrimes).reduce((acc, curr) => {
+    const [prime, frequency] = curr;
+    return acc * Math.pow(prime, frequency);
   }, 1);
 }
 
-smallestMult(7); //
+console.log(smallestMult(50)); // 3.099044504245997e+21
 ```
 
 ---
 
-Especially considering the latest update, I've become more and more confident in the code solving the problem at hand. That being said, I am positive the data structure created through the `reduce()` funtion can be improved. If you know how, let me know [@borntofrappe](https://twitter.com/borntofrappe).
+Especially considering the last update, I've become more and more confident in the code solving the problem at hand. That being said, I am positive the data structure created through the `reduce()` function can be improved. If you know how, let me know [@borntofrappe](https://twitter.com/borntofrappe).
