@@ -1,6 +1,13 @@
 function nthPrime(n) {
-  // Good luck!
-  return true;
+  const primes = [];
+  let candidate = 1;
+  while(primes.length < n) {
+    candidate += 1;
+    if(!primes.find(prime => candidate % prime === 0)) {
+      primes.push(candidate);
+    }
+  }
+  return primes[n - 1];
 }
 
-nthPrime(10001);
+console.log(nthPrime(10001));
