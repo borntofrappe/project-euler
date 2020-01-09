@@ -1,4 +1,4 @@
-# [Smallest multiple](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-5-smallest-multiple)
+# [Smallest Multiple](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-5-smallest-multiple)
 
 ## ⚠️ Be Advised ⚠️
 
