@@ -1,6 +1,9 @@
 function sumSquareDifference(n) {
-  // Good luck!
-  return true;
+  if (n === 1) {
+    return 0;
+  } else {
+    return n ** 2 * (n - 1) + sumSquareDifference(n-1);
+  }
 }
 
-sumSquareDifference(100);
+console.log(sumSquareDifference(80));
