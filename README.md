@@ -20,7 +20,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 004    | Largest Palindrome Product |    ✔️    |  ✔️   |
 | 005    | Smallest Multiple          |    ✔️    |  ✔️   |
 | 006    | Sum Square Difference      |    ✔️    |  ✔️   |
-| 007    | 10001st Prime              |    ❓    |  ✔️   |
+| 007    | 10001st Prime              |    ✔️    |  ✔️   |
 
 <!-- | 00x|Title|❌|❌| -->
 <!-- ✔️❌❓ -->

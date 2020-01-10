@@ -39,6 +39,57 @@ Here I use a an array to collect the values, and lean on the definition of prime
 
 Starting with a value of `2`, the loop considers `2`, `3`, skips `4` to then consider `5` and continues until the array has `n` items. Outside of the loop, the `return` statement refers to the very last item in the array (remember arrays are zero-based indexed, so that `primes[n]` will result in an off-by-one error).
 
+The code described above seems to clear the challenge, but the testing suite @freeCodeCamp highlights a potential infinite loop on line `4`.
+
+## Update
+
+I see no other way to test whether a number is prime than by finding whether or not it can be divided by a value different from `1` or itself.
+
+I found a way to recursively describe prime numbers:
+
+```js
+const nthPrimes = n => {
+  if (n === 1) {
+    return [2];
+  }
+  const primes = nthPrimes(n - 1);
+  let candidate = primes[0];
+  while (primes.find(prime => candidate % prime === 0)) {
+    candidate += 1;
+  }
+  return [candidate, ...primes];
+};
+
+nthPrimes(5); // [11, 7, 5, 3, 2]
+```
+
+A bit mind-bending, but leverages the same condition specified in the earlier `if` statement. Once a prime number is found, it is included at the beginning of the array, and the function looks for the next value.
+
+Included in the testing suite, it actually gives rise to a full-blown error message: `RangeError: Maximum call stack size exceeded`.
+
+```js
+function nthPrime(n) {
+  const nthPrimes = n => {
+    if (n === 1) {
+      return [2];
+    }
+    const primes = nthPrimes(n - 1);
+    let candidate = primes[0];
+    while (primes.find(prime => candidate % prime === 0)) {
+      candidate += 1;
+    }
+    return [candidate, ...primes];
+  };
+
+  return nthPrimes(n)[0];
+}
+
+nthPrime(1000); // 7919
+nthPrime(10000); // Uncaught RangeError: Maximum call stack size exceeded
+```
+
+It'd be actually interesting to find the threshold after which the error message gets displayed (between `8000` and `9000`, I'll spare you the futile exercise).
+
 ---
 
-The code described above seems to clear the challenge, but the testing suite @freeCodeCamp describes a potential infinite loop on line `4`, the one setting up the loop. I might put a pin on the project and come back after a bit of research.
+The exploration detailed in the update section lead me toward a dead-end. We have a working solution described right before it, but there's also that message about a potential infinite loop. If you know how to fix this, feel free to drop a hint [@borntofrappe](https://twitter.com/borntofrappe).
