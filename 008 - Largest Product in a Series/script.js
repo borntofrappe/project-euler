@@ -22,4 +22,4 @@ function largestProductinaSeries(n) {
   return reducer.product;
 }
 
-largestProductinaSeries(13);
+console.log(largestProductinaSeries(13));

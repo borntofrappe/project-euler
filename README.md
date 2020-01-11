@@ -21,7 +21,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 005    | Smallest Multiple           |    ✔️    |  ✔️   |
 | 006    | Sum Square Difference       |    ✔️    |  ✔️   |
 | 007    | 10001st Prime               |    ✔️    |  ✔️   |
-| 008    | Largest Product in a Series |    ❌    |  ❌   |
+| 008    | Largest Product in a Series |    ✔️    |  ✔️   |
 
 <!-- | 00x|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
