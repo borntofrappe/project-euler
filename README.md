@@ -22,7 +22,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 006    | Sum Square Difference       |    ✔️    |  ✔️   |
 | 007    | 10001st Prime               |    ✔️    |  ✔️   |
 | 008    | Largest Product in a Series |    ✔️    |  ✔️   |
-| 009    | Special Pythagorean triplet |    ❌    |  ❌   |
+| 009    | Special Pythagorean triplet |    ✔️    |  ✔️   |
 
 <!-- | 00x|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
