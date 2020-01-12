@@ -21,3 +21,27 @@ function specialPythagoreanTriplet(n) {
 
 specialPythagoreanTriplet(1000);
 ```
+
+## Notes
+
+I am afraid I will have to look up something on solving equations, as my math skills won't be enough, but let's take it one step at a time.
+
+Here's what we know to be true:
+
+1. pythagoras' theorem
+
+   ```code
+   a^2 + b^2 = c^2
+   ```
+
+1. three natural numbers in ascending order
+
+   ```code
+   a < b < c
+   ```
+
+1. the sum of the three numbers
+
+   ```code
+   a + b + c = n
+   ```
