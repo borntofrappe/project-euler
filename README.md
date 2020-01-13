@@ -23,7 +23,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 007    | 10001st Prime               |    ✔️    |  ✔️   |
 | 008    | Largest Product in a Series |    ✔️    |  ✔️   |
 | 009    | Special Pythagorean triplet |    ✔️    |  ✔️   |
-| 010    | Summation of Primes         |    ✔️    |  ❓   |
+| 010    | Summation of Primes         |    ✔️    |  ✔️   |
 
 <!-- | 00x|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
