@@ -145,3 +145,7 @@ I've become accustomed to a certain degree of failure in this challenge, so excu
 Reading through the notes, I actually noticed I was doubting whether this approach would be a valid one, and momentarily thought of another solution using regular expressions. Perhaps it would have been dumber, but the idea was to look through the array for the highest possible value, an integer of `n` digit, all of which describing the number `9`, and then decrementing this value until the first match was found. This could get quickly out of hand though. In a situation where there's no `9` for instance, you'd loop through a thousand values, at least, without a possible match, but exploring the idea further might make it a viable solution.
 
 I might consider an update in the future, but satisfied with the (two) `reduce` function, I'll gladly close the problem with the solution described in the script. If you explore that approach, or any alternative approach for that matter, you know where to reach me: [@borntofrappe](https://twitter.com/borntofrappe).
+
+### Update
+
+While exploring problem #11, I found a more efficient solution using a `for` loop, and reducing the number of checks necessary to find the largest product. I decided to maintain the solution described in this page in the `reduce.js` script, and detail the better approach in `script.js`. The improvement means the loop now considers only the product of arrays of `n` items.
