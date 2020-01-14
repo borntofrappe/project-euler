@@ -3,7 +3,7 @@ function largestProductinaSeries(n) {
 
   const { length } = thousandDigits;
   let solution = 0;
-  for (let i = n; i < length - n; i += 1) {
+  for (let i = n; i < length; i += 1) {
     const digits = thousandDigits.slice(i - n, i);
     const product = digits.reduce((acc, curr) => acc * curr, 1);
     if (solution < product) {
@@ -12,4 +12,4 @@ function largestProductinaSeries(n) {
   }
   return solution;
 }
-console.log(largestProductinaSeries(4));
+console.log(largestProductinaSeries(13));

@@ -110,3 +110,101 @@ largestProductinaSeries(4);
 ```
 
 After the `for` loop, `product` is sure to describe the greatest possible value of any array `n` characters long. We complete the task set up through the `reduce` function, but faster.
+
+### P11 Comeback
+
+The problem at hand describes a multidimensional array, a 2D array to be precise, and we must be sure to check the product of `n` adjacent digits in any direction.
+
+Let's start by considering the horizontal values, left to right, or right to left for that matter.
+
+```js
+function largestGridProduct(arr) {
+  const ADJACENT_DIGITS = 4;
+  let solution = 0;
+  arr.forEach(row => {
+    for (let j = ADJACENT_DIGITS; j < row.length; j += 1) {
+      const productRow = row.slice(j - ADJACENT_DIGITS, j).reduce((acc, curr) => acc * curr, 1);
+      if (solution < productRow) {
+        solution = productRow;
+      }
+    }
+  });
+
+  return solution;
+}
+```
+
+For the test grid:
+
+```js
+largestGridProduct(testGrid); // 7615944
+```
+
+Which accurately describes the product of `36*42*69*73`, in the third row.
+
+The challenge now becomes how to check the numbers vertically, and also diagonally. Here's an idea: instead of modifying the code within the `for` loop, why not extending the array on which the `forEach` is set up.
+
+The idea is to describe a larger array contemplating, always with an array, the different columns and diagonals.
+
+### Columns
+
+Starting with the columns, we can retrieve them by using a `map` function on the input array and returning the `n`-th item of each row:
+
+```js
+const testGrid = [
+  [40, 17, 81, 18, 57],
+  [74, 4, 36, 16, 29],
+  [36, 42, 69, 73, 45],
+  [51, 54, 69, 16, 92],
+  [7, 97, 57, 32, 16]
+];
+
+const columns = Array(testGrid.length)
+  .fill()
+  .map((value, index) => testGrid.map(row => row[index]));
+```
+
+We'll get to the diagonals hopefully in a moment, but to illustrate the approach, now that we have the columns:
+
+```js
+[
+  [40, 74, 36, 51, 7],
+  [17, 4, 42, 54, 97],
+  [81, 36, 69, 69, 57],
+  [18, 16, 73, 16, 32],
+  [57, 29, 45, 92, 16]
+];
+```
+
+We extend the surface area of the `forEach` function, thusly considering the product of `n` digits in two directions.
+
+```js
+function largestGridProduct(arr) {
+  const ADJACENT_DIGITS = 4;
+  let solution = 0;
+  const columns = Array(testGrid.length)
+    .fill()
+    .map((value, index) => testGrid.map(row => row[index]));
+
+  [...arr, ...columns].forEach(row => {
+    for (let j = ADJACENT_DIGITS; j < row.length; j += 1) {
+      const productRow = row.slice(j - ADJACENT_DIGITS, j).reduce((acc, curr) => acc * curr, 1);
+      if (solution < productRow) {
+        solution = productRow;
+      }
+    }
+  });
+
+  return solution;
+}
+```
+
+For `testGrid`, the code updates the previous value as follows:
+
+```js
+largestGridProduct(testGrid); // 13883076
+```
+
+`13883076` as in the product of the numbers included in the third column: `[ 81, 36, 69, 69 ]`.
+
+"All" is left is extending the initial array to consider the diagonals.
