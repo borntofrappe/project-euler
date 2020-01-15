@@ -4,34 +4,34 @@ function largestGridProduct(arr) {
   const columns = [];
   const diagonals = [];
 
-  for (let i = 0; i <= arr.length - ADJACENT_DIGITS; i += 1) {
+  for (let i = 0; i < arr.length; i += 1) {
     for (let j = 0; j < arr[i].length; j += 1) {
-      const column = Array(ADJACENT_DIGITS)
-        .fill("")
-        .map((value, index) => arr[i + index][j]);
-        columns.push(column);
-
       if (j <= arr[i].length - ADJACENT_DIGITS) {
         const row = Array(ADJACENT_DIGITS)
           .fill("")
           .map((value, index) => arr[i][j + index]);
         rows.push(row);
-
-        const diagonal = Array(ADJACENT_DIGITS)
-          .fill("")
-          .map((value, index) => arr[i + index][j + index]);
-        diagonals.push(diagonal);
       }
-      if (j >= ADJACENT_DIGITS - 1) {
-        const row = Array(ADJACENT_DIGITS)
-          .fill("")
-          .map((value, index) => arr[i][j - index]);
-        rows.push(row);
 
-        const diagonal = Array(ADJACENT_DIGITS)
+      if (i <= arr[i].length - ADJACENT_DIGITS) {
+        const column = Array(ADJACENT_DIGITS)
           .fill("")
-          .map((value, index) => arr[i + index][j - index]);
-        diagonals.push(diagonal);
+          .map((value, index) => arr[i + index][j]);
+        columns.push(column);
+
+        if (j <= arr[i].length - ADJACENT_DIGITS) {
+          const diagonal = Array(ADJACENT_DIGITS)
+            .fill("")
+            .map((value, index) => arr[i + index][j + index]);
+          diagonals.push(diagonal);
+        }
+        if (j >= ADJACENT_DIGITS - 1) {
+          const diagonal = Array(ADJACENT_DIGITS)
+            .fill("")
+            // different rows and columns (down and to the left)
+            .map((value, index) => arr[i + index][j - index]);
+          diagonals.push(diagonal);
+        }
       }
     }
   }
@@ -74,4 +74,4 @@ const testGrid = [
   [7, 97, 57, 32, 16]
 ];
 
-console.log(largestGridProduct(grid));
+console.log(largestGridProduct(testGrid));

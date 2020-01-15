@@ -24,7 +24,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 008    | Largest Product in a Series |    ✔️    |  ✔️   |
 | 009    | Special Pythagorean Triplet |    ✔️    |  ✔️   |
 | 010    | Summation of Primes         |    ✔️    |  ✔️   |
-| 011    | Largest Product in a Grid   |    ❌    |  ❌   |
+| 011    | Largest Product in a Grid   |    ✔️    |  ✔️   |
 
 <!-- | 00x|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
