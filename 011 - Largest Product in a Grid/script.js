@@ -1,20 +1,46 @@
 function largestGridProduct(arr) {
   const ADJACENT_DIGITS = 4;
-  let solution = 0;
-  const columns = Array(testGrid.length)
-    .fill()
-    .map((value, index) => testGrid.map(row => row[index]));
+  const rows = [];
+  const columns = [];
+  const diagonals = [];
 
-  [...arr, ...columns].forEach(row => {
-    for (let j = ADJACENT_DIGITS; j < row.length; j += 1) {
-      const productRow = row.slice(j - ADJACENT_DIGITS, j).reduce((acc, curr) => acc * curr, 1);
-      if (solution < productRow) {
-        solution = productRow;
+  for (let i = 0; i <= arr.length - ADJACENT_DIGITS; i += 1) {
+    for (let j = 0; j < arr[i].length; j += 1) {
+      const column = Array(ADJACENT_DIGITS)
+        .fill("")
+        .map((value, index) => arr[i + index][j]);
+        columns.push(column);
+
+      if (j <= arr[i].length - ADJACENT_DIGITS) {
+        const row = Array(ADJACENT_DIGITS)
+          .fill("")
+          .map((value, index) => arr[i][j + index]);
+        rows.push(row);
+
+        const diagonal = Array(ADJACENT_DIGITS)
+          .fill("")
+          .map((value, index) => arr[i + index][j + index]);
+        diagonals.push(diagonal);
+      }
+      if (j >= ADJACENT_DIGITS - 1) {
+        const row = Array(ADJACENT_DIGITS)
+          .fill("")
+          .map((value, index) => arr[i][j - index]);
+        rows.push(row);
+
+        const diagonal = Array(ADJACENT_DIGITS)
+          .fill("")
+          .map((value, index) => arr[i + index][j - index]);
+        diagonals.push(diagonal);
       }
     }
-  });
+  }
 
-  return solution;
+  return [...rows, ...columns, ...diagonals].reduce((acc, curr) => {
+    const product = curr.reduce((acc, curr) => acc * curr, 1);
+    return acc > product ? acc : product;
+  }, 0);
+
 }
 
 const grid = [
@@ -48,4 +74,4 @@ const testGrid = [
   [7, 97, 57, 32, 16]
 ];
 
-console.log(largestGridProduct(testGrid));
+console.log(largestGridProduct(grid));
