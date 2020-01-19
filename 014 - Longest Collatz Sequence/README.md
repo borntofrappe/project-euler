@@ -28,6 +28,10 @@ function longestCollatzSequence(limit) {
 longestCollatzSequence(14);
 ```
 
+## Notice
+
+The problem has been solved with two solutions, but I am positive that both can be improved. The notes are also quite all over the place, but allowed me to practice aplenty with for loops, arrays and objects.
+
 ## Notes
 
 Once the logic behind the two rules kicks in:
@@ -142,3 +146,139 @@ return sequences.sort((a, b) => (a.length < b.length ? 1 : -1))[0][0];
 And surprisingly enough, it passes the tests set up [on the freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-14-longest-collatz-sequence).
 
 Apparently it takes a while, but not enough to have the test time out and fail.
+
+I've mixed feelings about this, especially since I had a plan for what I thought would be a failure. Let's continue with the mentioned improvement nonetheless.
+
+### Arrays
+
+The idea is to find a sequence which begins with the same value. If such a sequence exist, we preemptively exit the while loop attaching merging the two together. If it doesn't, we continue as described in the earlier snippets.
+
+```js
+while (n > 1) {
+  const index = sequences.findIndex(([value]) => value === n);
+  if (index !== -1) {
+    sequences[index] = [...sequence, ...sequences[index].slice(1)];
+    break;
+  }
+}
+```
+
+`slice(1)` to avoid keeping two copies of the matching value.
+
+The `break` statement allows to exit the while loop, but unfortunately, the statement appending the current `sequence` array is _after_ the loop itself. To avoid duplicating the array, we can wrap the statement in an `if` statement, to append the sequence only if we reach the final value of `1`.
+
+```js
+if (n === 1) {
+  sequences.push(sequence);
+}
+```
+
+Second surprise of the day, the code fails.
+
+By logging the `sequences` array, we can see that the data structure does describe a smaller set of values.
+
+For instance and for `16`, there are `6` arrays, starting with `1`, `12`, `9`, `14`, `13` and `15`. Any other starting point is considered within these construct.
+
+Despite this improvement in the size of the array however, it seems the code comes with a worse performance. I can only attribute this failure to the `findIndex` function, performing an excessive number of checks on every first value of the saved arrays.
+
+### Object
+
+While the approach of the previous section does not work, I decided to keep the code in the aptly named `failure.js` file. The logic is however, or perhaps should be, sound.
+
+In this section, I tried to move from arrays to objects, to try and make due without the `findIndex` function. The syntax requires a few adjustments, so let's walk through it one step at a time.
+
+We set up `sequences` as an object instead of an array.
+
+```js
+const sequences = {};
+```
+
+In the while loop, we keep an array to consider the current sequence.
+
+Following the loop however, we add the array within the object, using the value generating the sequence as a key.
+
+```js
+for (let i = 1; i < limit; i += 1) {
+  let n = i;
+  const sequence = [n];
+  while (n > 1) {
+    if (n % 2 === 0) {
+      n /= 2;
+    } else {
+      n = n * 3 + 1;
+    }
+    sequence.push(n);
+  }
+  if (n === 1) {
+    sequences[i] = sequence;
+  }
+}
+```
+
+As regards the improvement, we no longer need to find the array with a desired value, but can immediately check of the object has a field with a matching key.
+
+```js
+if (sequences[n]) {
+  // match!
+}
+```
+
+If such a value exist, we can actually delete the property. Before deleting the key-value pair however, we take the existing sequence and include it in the object under the new key.
+
+```js
+if (sequences[n]) {
+  sequences[i] = [...sequence, ...sequences[n].slice(1)];
+  delete sequences[n];
+  break;
+}
+```
+
+Following the `for` loop, we know have an object of a considerable size. Its keys refer to the numbers at the beginning of the sequence, while its values describe the sequences themselves.
+
+Something similar to
+
+```js
+{
+  12: [12, 6, 3, 10, 5, 16, 8, 4, 2, 1]
+}
+```
+
+We can finally find the number with the longest sequence with a couple extra steps:
+
+- build a 2D array describing the key-value pairs one at a time
+
+  ```js
+  const entries = Object.entries(sequences);
+  ```
+
+- sort by the length of the second item, which describes the sequence
+
+  ```js
+  const entries = Object.entries(sequences).sort((a, b) => (a[1].length < b[1].length ? 1 : -1));
+  ```
+
+- return the first key within the sorted array.
+
+  ```js
+  return entries[0][0];
+  ```
+
+It is a bit convoluted, especially because we end up with a string. Through the `parseInt` function however, we can complete the function outputting the desired value.
+
+```js
+return parseInt(entries[0][0]);
+```
+
+The code passes the test, and it does so with a smaller data structure.
+
+---
+
+I got to explore quite a few solutions in this problem:
+
+- the surprising passing code stored in `success.js`
+
+- the surprising failure described in `failure.js`
+
+- the object oriented approach I decided to finally keep in `script.js`.
+
+I didn't even bother considering the opposite route, where we start by `1` and build the sequence up to the greatest value up to `limit`. If you tried this approach, if you know why the code in `failure.js` is not performing, or just want to comment something, let me know [@borntofrappe](https://twitter.com/borntofrappe).
