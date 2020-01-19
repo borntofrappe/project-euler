@@ -27,3 +27,5 @@ function divisibleTriangleNumber(n) {
 
   return number;
 }
+
+console.log(divisibleTriangleNumber(10)); // 120
