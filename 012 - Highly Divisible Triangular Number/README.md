@@ -36,3 +36,79 @@ function divisibleTriangleNumber(n) {
 
 divisibleTriangleNumber(500);
 ```
+
+## Notes
+
+Without much research, let me consider a very rough approach, computing the factors for every triangular numbers until `n` factors are found. This is bound to be inefficient and not the final solution, but is nonetheless helpful to practice with JavaScript syntax.
+
+Given an input number `n`, we can describe its factors as those values `i` for which the division `n / i` has no remainder.
+
+```js
+function factorsNumber(n) {
+  const factors = [];
+  for (let i = 1; i <= n; i += 1) {
+    if (n % i === 0) {
+      factors.push(i);
+    }
+  }
+  return factors;
+}
+```
+
+For instance and for fifteen:
+
+```js
+factorsNumber(15); // [1, 3, 5, 15]
+```
+
+A triangular number, on the other hand, is a value computed as the sum of the natural numbers starting from `1` up to the `n`th value. This is actually the perfect excuse to tinker with recursion.
+
+```js
+function triangularNumber(n) {
+  if (n <= 1) {
+    return 1;
+  }
+  return n + triangularNumber(n - 1);
+}
+```
+
+In the recursive call we compute the sum of the current and previous value. In the base case we exit the function returning `1`. For instance and for the fifteenth triangular number:
+
+```js
+triangularNumber(15); // 120
+```
+
+Again, this is bound to be a massive failure, but the logic described in the two snippets can already describe the first triangular number with `n` factors. As long as `n` is a relatively small value that is.
+
+```js
+function divisibleTriangleNumber(n) {
+  // solution
+  let number = 0;
+  // counter to consider the n-th triangular number
+  let counter = 0;
+  // counter to consider how many factors the number has
+  let numberFactors = 0;
+
+  // until the triangular number has more than n factors
+  // increment the counter
+  // compute the triangular number and the number of factors
+  while (numberFactors < n) {
+    counter += 1;
+    number = triangularNumber(counter);
+    numberFactors = factorsNumber(number).length;
+  }
+
+  return number;
+}
+```
+
+This works fine when `n` is equal to `5`, or `23` for that matter.
+
+```js
+divisibleTriangleNumber(5); // 28
+divisibleTriangleNumber(23); // 630
+```
+
+However, already with `167` it starts to take a while. The potential infinite loop is right around the corner. In other words, the logic is sound, but not enough to solve the problem at hand.
+
+It's not the solution, but it was a perfect excuse to practice with recursion. To this end, I decided to store the code in the `failure.js` script.
