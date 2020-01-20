@@ -154,14 +154,8 @@ function divisibleTriangleNumber(n) {
 }
 ```
 
-We still cause a potential infinite loop through the `while` and `for` statements, but it becomes more evident that the issue is with the entire approach:
-
-- compute triangular number
-
-- find factors
-
-- repeat with the next triangular number
-
-The way we loop from `1` up to and including the desired value is particularly inefficient, which makes me think the entire problem boils down to how we find the factors of any given number,
+We still cause a potential infinite loop through the `while` and `for` statements, but it becomes more evident that the issue is now with the factors.
 
 ## Factors
+
+The way we loop from `1` up to and including the desired value is particularly inefficient.
