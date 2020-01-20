@@ -1,22 +1,23 @@
-function countFactors(n) {
-  let count = 0;
-  for(let i = 1; i <= Math.sqrt(n); i+= 1) {
-    if(n % i === 0) {
-      count += 1;
-      if(n / i !== i) {
-        count += 1;
+function divisibleTriangleNumber(n) {
+  let counter = 0;
+  let triangularNumber = 0;
+  let numberFactors = 0;
+
+  while(numberFactors < n) {
+    numberFactors = 0;
+    counter += 1;
+    triangularNumber = counter * (counter + 1) / 2;
+
+    for(let i = 1; i < Math.sqrt(triangularNumber); i += 1) {
+      if(triangularNumber % i === 0) {
+        numberFactors += 1;
+        if(triangularNumber / i !== i) {
+          numberFactors += 1;
+        }
       }
     }
   }
-  return count;
+  return triangularNumber;
 }
 
-function divisibleTriangleNumber(n) {
-  let counter = 2;
-  while(countFactors(counter * (counter + 1) / 2) < n) {
-    counter += 1;
-  }
-  return counter * (counter + 1) / 2;
-}
-
-divisibleTriangleNumber(10)
+console.log(divisibleTriangleNumber(500)) // 76576500

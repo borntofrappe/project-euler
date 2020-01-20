@@ -154,7 +154,7 @@ function divisibleTriangleNumber(n) {
 }
 ```
 
-We still cause a potential infinite loop through the `while` and `for` statements, but it becomes more evident that the issue is now with the factors.
+We still cause a potential infinite loop through the `while` and `for` statements, but it becomes more evident that the issue is with the factors.
 
 ## Factors
 
