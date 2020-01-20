@@ -25,7 +25,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 009    | Special Pythagorean Triplet        |    ✔️    |  ✔️   |
 | 010    | Summation of Primes                |    ✔️    |  ✔️   |
 | 011    | Largest Product in a Grid          |    ✔️    |  ✔️   |
-| 012    | Highly Divisible Triangular Number |    ✔️    |  ❌   |
+| 012    | Highly Divisible Triangular Number |    ✔️    |  ✔️   |
 | 013    | Large Sum                          |    ✔️    |  ✔️   |
 | 014    | Longest Collatz Sequence           |    ✔️    |  ✔️   |
 

@@ -37,9 +37,13 @@ function divisibleTriangleNumber(n) {
 divisibleTriangleNumber(500);
 ```
 
+## Notice
+
+This problem was solved over the span of two and a half days. In light of this, the notes are less straightforward than one would hope.
+
 ## Notes
 
-Without much research, let me consider a very rough approach, computing the factors for every triangular numbers until `n` factors are found. This is bound to be inefficient and not the final solution, but is nonetheless helpful to practice with JavaScript syntax.
+Without much research, let me consider a very rough approach, computing the factors for every triangular numbers until `n` factors are found. This is bound to fail the tests [on the freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-12-highly-divisible-triangular-number), but is nonetheless helpful to practice with JavaScript syntax.
 
 Given an input number `n`, we can describe its factors as those values `i` for which the division `n / i` has no remainder.
 
@@ -55,7 +59,7 @@ function factorsNumber(n) {
 }
 ```
 
-For instance and for fifteen:
+For instance, and for fifteen:
 
 ```js
 factorsNumber(15); // [1, 3, 5, 15]
@@ -78,7 +82,7 @@ In the recursive call we compute the sum of the current and previous value. In t
 triangularNumber(15); // 120
 ```
 
-Again, this is bound to be a massive failure, but the logic described in the two snippets can already describe the first triangular number with `n` factors. As long as `n` is a relatively small value that is.
+Again, this is bound to be a massive failure, but the logic described in the two snippets can already be purposed to find the first triangular number with `n` factors. As long as `n` is a relatively small value that is.
 
 ```js
 function divisibleTriangleNumber(n) {
@@ -109,7 +113,7 @@ divisibleTriangleNumber(5); // 28
 divisibleTriangleNumber(23); // 630
 ```
 
-However, already with `167` it starts to take a while. The potential infinite loop is right around the corner. In other words, the logic is sound, but not enough to solve the problem at hand.
+However, already with `167` it starts to take a while. The potential infinite loop is right around the corner, and while the logic is sound, it's not enough to solve the problem at hand.
 
 It's not the solution, but it was a perfect excuse to practice with recursion. To this end, I decided to store the code in the `failure.js` script.
 
@@ -158,4 +162,37 @@ We still cause a potential infinite loop through the `while` and `for` statement
 
 ## Factors
 
-The way we loop from `1` up to and including the desired value is particularly inefficient.
+The way we loop from `1` up to and including the desired value is thoroughly inefficient.
+
+Considering that we care only about the count, and not the actual factors, we can actually consider the same construct used to retrieve prime numbers with the Sieve of Eratosthenes. The algorithm we used in problem #10.
+
+```js
+for (let i = 1; i < Math.sqrt(triangularNumber); i += 1) {
+  if (triangularNumber % i === 0) {
+    numberFactors += 1;
+  }
+}
+```
+
+We loop from 1 up to the square root of the triangular number. We do not need to go beyond that threshold from the very simple reason that when the number is divisible for `i`, it is also divisible by the number we get by dividing the number by `i`.
+
+In other words, when `28` is found to be divisible by `2`, we can immediately find another factor in `14`, literally `28/2`.
+
+With this consideration, and making sure that the result of the division is not the factor itself, the runtime of the for loop is cut down considerably.
+
+```js
+for (let i = 1; i < Math.sqrt(triangularNumber); i += 1) {
+  if (triangularNumber % i === 0) {
+    numberFactors += 1;
+    if (triangularNumber / i !== i) {
+      numberFactors += 1;
+    }
+  }
+}
+```
+
+Enough to pass the tests set up on the freeCodeCamp platform.
+
+---
+
+I firmly believe the problem can be solved much more efficiently. I explored prime numbers, and while I am positive they play a role in the project, I couldn't come up with a solid approach. If you do know how prime numbers can improve the situation, or are aware of simply a better solution, reach out [@borntofrappe](https://twitter.com/borntofrappe).

@@ -30,7 +30,7 @@ longestCollatzSequence(14);
 
 ## Notice
 
-The problem has been solved with two solutions, but I am positive that both can be improved. The notes are also quite all over the place, but allowed me to practice aplenty with for loops, arrays and objects.
+The problem was solved in the for loop section, but I continued exploring the challenge to consider an improvement based on nested arrays and finally objects.
 
 ## Notes
 
@@ -85,20 +85,9 @@ The ternary operator could have actually been included in the function call dire
 
 ### For Loop
 
-From this starting point, you could start a loop from `1` up to the input `limit`, but of course, this is the solution which is meant to be rejected by the testing suite for being extremely inefficient.
+From this starting point, you could start a loop from `1` up to the input `limit`. This is bound to be rejected as being extremely inefficient, but let's try at least.
 
-The example provided above however, leads me to a first improvement. Consider the following sequences:
-
-```js
-collatzSequence(10); // [10, 5, 16, 8, 4, 2, 1]
-collatzSequence(23); // [23, 70, 35, 106, 53, 160, 80, 40, 20, 10, 5, 16, 8, 4, 2, 1]
-```
-
-And notice how once the second sequence reaches the previous value `10`, it follows the same path. In this instance we can preemptively terminate the recursive call, and use the available sequence instead.
-
-Let's try to implement it in code, and within the scope of the given function.
-
-Without the mentioned improvement, the sequences can be collected in an array as follows:
+The sequences can be collected in an array as follows:
 
 ```js
 function longestCollatzSequence(limit) {
@@ -147,11 +136,20 @@ And surprisingly enough, it passes the tests set up [on the freeCodeCamp platfor
 
 Apparently it takes a while, but not enough to have the test time out and fail.
 
-I've mixed feelings about this, especially since I had a plan for what I thought would be a failure. Let's continue with the mentioned improvement nonetheless.
-
 ### Arrays
 
-The idea is to find a sequence which begins with the same value. If such a sequence exist, we preemptively exit the while loop attaching merging the two together. If it doesn't, we continue as described in the earlier snippets.
+The examples described so far lead me to a first improvement. Consider the following sequences:
+
+```js
+collatzSequence(10); // [10, 5, 16, 8, 4, 2, 1]
+collatzSequence(23); // [23, 70, 35, 106, 53, 160, 80, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+```
+
+And notice how once the second sequence reaches the previous value `10`, it follows the same path. In this instance we can preemptively terminate the loop, and use the available sequence instead.
+
+Let's try to implement it in code, and within the scope of the given function.
+
+The idea is to find the sequence begining with the same value, and update its structure to consider the new sequence as well.
 
 ```js
 while (n > 1) {
@@ -179,13 +177,13 @@ By logging the `sequences` array, we can see that the data structure does descri
 
 For instance and for `16`, there are `6` arrays, starting with `1`, `12`, `9`, `14`, `13` and `15`. Any other starting point is considered within these construct.
 
-Despite this improvement in the size of the array however, it seems the code comes with a worse performance. I can only attribute this failure to the `findIndex` function, performing an excessive number of checks on every first value of the saved arrays.
+Despite this improvement in memory, it seems the code comes with a worse performance. I can only attribute this failure to the `findIndex` function, performing an excessive number of checks on every first value of the saved arrays.
 
 ### Object
 
-While the approach of the previous section does not work, I decided to keep the code in the aptly named `failure.js` file. The logic is however, or perhaps should be, sound.
+While the approach of the previous section does not work, I decided to keep the code in the aptly named `failure.js` file. It was still good practice with multidimensional arrays. Moreover, I decided to further explore the approach with objects instead.
 
-In this section, I tried to move from arrays to objects, to try and make due without the `findIndex` function. The syntax requires a few adjustments, so let's walk through it one step at a time.
+The syntax requires a few adjustments, so let's walk through it one step at a time.
 
 We set up `sequences` as an object instead of an array.
 
@@ -215,7 +213,7 @@ for (let i = 1; i < limit; i += 1) {
 }
 ```
 
-As regards the improvement, we no longer need to find the array with a desired value, but can immediately check of the object has a field with a matching key.
+This essentially replicates the approach described in the for loop section. Considering the improvement however, we can make due without the `findIndex` function, and check if the object has a matching key instead.
 
 ```js
 if (sequences[n]) {
@@ -235,7 +233,7 @@ if (sequences[n]) {
 
 Following the `for` loop, we know have an object of a considerable size. Its keys refer to the numbers at the beginning of the sequence, while its values describe the sequences themselves.
 
-Something similar to
+Something similar to:
 
 ```js
 {
@@ -245,7 +243,7 @@ Something similar to
 
 We can finally find the number with the longest sequence with a couple extra steps:
 
-- build a 2D array describing the key-value pairs one at a time
+- build a 2D array describing the key value pairs one at a time
 
   ```js
   const entries = Object.entries(sequences);
@@ -275,10 +273,10 @@ The code passes the test, and it does so with a smaller data structure.
 
 I got to explore quite a few solutions in this problem:
 
-- the surprising passing code stored in `success.js`
+- the surprising passing code stored in `script.js`
 
 - the surprising failure described in `failure.js`
 
-- the object oriented approach I decided to finally keep in `script.js`.
+- the object oriented approach I decided to finally keep in `success.js`.
 
 I didn't even bother considering the opposite route, where we start by `1` and build the sequence up to the greatest value up to `limit`. If you tried this approach, if you know why the code in `failure.js` is not performing, or just want to comment something, let me know [@borntofrappe](https://twitter.com/borntofrappe).

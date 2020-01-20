@@ -23,11 +23,11 @@ largeSum(testNums);
 
 ## Notice
 
-As in the previous problem describing an array of ten thousand digits, I made the decision not to display the entirety of the sequence. On the [freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-13-large-sum) you can attest the validity of the solution on the larger data structure.
+As in a previous problem describing an array of ten thousand digits, I made the decision not to display the entirety of the sequence. On the [freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-13-large-sum) you can attest the validity of the solution on the larger data structure.
 
 ## Notes
 
-As with previous problems, the most direct approach is immediately questioned as a valid option. Let's investigate why that is, however.
+As with previous challenges, I am forced to immediately doubt the most direct approach. Let's investigate why that is, however.
 
 Consider the following snippet:
 
@@ -49,7 +49,7 @@ largeSum(testNums); // 8.348422521139211e+49
 
 The number is provided in exponent notation, and if we were to display the first ten characters of the equivalent string, we'd get something akin to `8.34842252`.
 
-Not the solution, but also not that far from it. At first I tossed this "immediate" approach on the side and started to consider a series of loops to add the columns from the last to the first. Something similar to how additions are resolved in elementary school.
+Not the solution, but also not that far from it. At first I tossed this "immediate" approach on the side and started to consider a series of loops to add the columns from the last to the first. Something similar to how additions are solved in elementary school.
 
 ```code
 159  +
