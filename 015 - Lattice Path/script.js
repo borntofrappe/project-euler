@@ -1,11 +1,11 @@
-function factorial(n) {
-  if(n <= 1) {
+function factorial(n, threshold = 1) {
+  if(n <= threshold) {
     return 1;
   }
-  return n * factorial(n - 1);
+  return n * factorial(n - 1, threshold);
 }
 function latticePaths(gridSize) {
-  return factorial(2 * gridSize) / (factorial(gridSize) * factorial(gridSize));
+  return factorial(2 * gridSize, gridSize) / factorial(gridSize);
 }
 
 console.log(latticePaths(20));
