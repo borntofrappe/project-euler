@@ -29,6 +29,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 013    | Large Sum                          |    ✔️    |  ✔️   |
 | 014    | Longest Collatz Sequence           |    ✔️    |  ✔️   |
 | 015    | Lattice Path                       |    ✔️    |  ✔️   |
+| 016    | Power Digit Sum                    |    ❌    |  ❌   |
 
-<!-- | 00x|Title|❌|❌| -->
+<!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
