@@ -16,3 +16,73 @@ function powerDigitSum(exponent) {
 
 powerDigitSum(15);
 ```
+
+## Notes
+
+The most direct approach is meant to fail, but nonetheless worth a mention. If anything, to see why the failure occurs.
+
+- compute the result of `2^exponent`
+
+  ```js
+  function powerDigitSum(exponent) {
+    const result = 2 ** exponent;
+  }
+  ```
+
+- coerce the result into a string,
+
+  ```js
+  function powerDigitSum(exponent) {
+    const result = 2 ** exponent;
+    return result.toString();
+  }
+  ```
+
+- split the characters into an array to consider the values individually
+
+  ```js
+  function powerDigitSum(exponent) {
+    const result = 2 ** exponent;
+    return result.toString().split("");
+  }
+  ```
+
+- use a reduce function to add up the values.
+
+  ```js
+  function powerDigitSum(exponent) {
+    const result = 2 ** exponent;
+    return result
+      .toString()
+      .split("")
+      .reduce((acc, curr) => acc + parseInt(curr), 0);
+  }
+  ```
+
+  I could have mapped the array to parse the characters separately, but decided to include the function in the `reduce` call instead.
+
+This actually works for small values:
+
+```js
+powerDigitSum(15); // 26
+```
+
+But for larger quantities, it returns something less desirable.
+
+```js
+powerDigitSum(128); // NaN
+```
+
+Why not a number?
+
+If you were to compute `2**128`, you'd find the result expressed in exponent notation.
+
+```js
+2 ** 128; // 3.402823669209385e+38
+```
+
+This means that when we loop through the individual characters, we stumble up `parseInt('.')`, which returns `NaN`. The addition between `NaN` and any integer value returns always `NaN`, to that we eventually retrieve the specific value.
+
+Notice that `e` and `+` also return `NaN` when included as the argument of the `parseInt` function.
+
+Clearly, `NaN` is not a valid solution, but the exploration was worth the failure. You can find the code in the `failure.js` script.
