@@ -85,4 +85,13 @@ This means that when we loop through the individual characters, we stumble up `p
 
 Notice that `e` and `+` also return `NaN` when included as the argument of the `parseInt` function.
 
-Clearly, `NaN` is not a valid solution, but the exploration was worth the failure. You can find the code in the `failure.js` script.
+Clearly, `NaN` is not a valid solution. The exploration of the direct approach is however worth the failure.
+
+## Important Notice
+
+I used `parseInt` without specifying the radix. ESlint usually shamed me into attaching the value, most likely `10`, but I always suspected this was the default value. Reaching the [mdn docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt#Description) however, I was horrified to learn this is not the case. It tends to be, and for most cases it should be thanks to the implementation of ES5, but to save oneself from a likely headache, it is worth to add three or four more characters.
+
+```diff
+-parseInt(num)
++parseInt(num, 10)
+```
