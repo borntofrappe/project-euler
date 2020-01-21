@@ -95,3 +95,14 @@ I used `parseInt` without specifying the radix. ESlint usually shamed me into at
 -parseInt(num)
 +parseInt(num, 10)
 ```
+
+## Notes / 2
+
+Coming back to the project at hand, and trying to solve the sum of the individual digits, I am reminded of problem #13. Back then, we found a way around the constraint posed by exponent notation, but also mentioned a possible alternative approach by considering the addition as performed in elementary school.
+
+```code
+159  +
+321
+---
+480
+```
