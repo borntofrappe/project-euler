@@ -72,4 +72,4 @@ function numberLetterCounts(limit) {
   return word.length + numberLetterCounts(limit - 1);
 }
 
-numberLetterCounts(1000);
+console.log(numberLetterCounts(1000));
