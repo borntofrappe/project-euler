@@ -31,6 +31,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 015    | Lattice Path                       |    ✔️    |  ✔️   |
 | 016    | Power Digit Sum                    |    ✔️    |  ✔️   |
 | 017    | Number Letter Counts               |    ✔️    |  ✔️   |
+| 018    | Maximum Path Sum I                 |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
