@@ -151,3 +151,7 @@ A `reduce` function can then increment a counter if the day of the month is a Su
 ```js
 return days.reduce((acc, curr) => (curr === "Sunday" ? acc + 1 : acc), 0);
 ```
+
+---
+
+This project was more focused on JavaScript and functions than finding the most direct solution, but in that, it was an insightful experience to consider, or reconsider, the structure of one's own code. If you have found the inspiring `n`-th times better solution, you are more than welcome to come and to brag about it [@borntofrappe](https://twitter.com/borntofrappe).
