@@ -247,8 +247,16 @@ There are several ways to find the greatest item in an array, but it is first ne
 const flat = sums[sums.length - 1].reduce((acc, curr) => [...acc, ...curr], []);
 ```
 
-With the flat array, we can sort the numbers in ascending order and return the first item, or use `Math.max` knowing that the function can accept a list of numbers.
+With the flat array, we can sort the numbers in ascending order and return the first item, or use `Math.max`, knowing that the function accepts numbers instead of arrays.
 
 ```js
 return Math.max(...flat);
 ```
+
+## Wrap Up
+
+The explanation was quite verbose, but the underlying approach is straightforward: add all the possible values looping through the input array one row at a time. Return the greatest value. The implementation was more challenging, but was a great way to practice with nested for loops and nested arrays.
+
+---
+
+I am actually tempted to see if this solution works for the problem 67 as well, but I'll try to save what promises to be a tougher challenge in about two months' time. If you have a better solution, let me know [@borntofrappe](https://twitter.com/borntofrappe). Just don't spoil #67, for now.
