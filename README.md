@@ -32,6 +32,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 016    | Power Digit Sum                    |    ✔️    |  ✔️   |
 | 017    | Number Letter Counts               |    ✔️    |  ✔️   |
 | 018    | Maximum Path Sum I                 |    ✔️    |  ✔️   |
+| 019    | Counting Sundays                   |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
