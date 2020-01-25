@@ -52,4 +52,6 @@ But once we reach higher values, the function doesn't return the desired value.
 sumFactorialDigits(50); // NaN
 ```
 
-It returns `NaN` since the factorial of `50` is computed with exponent notation, as `3.0414093201713376e+64`.
+It returns `NaN` since the factorial of `50` is computed with exponent notation, as `3.0414093201713376e+64`, and once we reach the dot or the plus sign, we try to unsuccessfully coerce the string and find `NaN` instead.
+
+Exactly like in problem #16.
