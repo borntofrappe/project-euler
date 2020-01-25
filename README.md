@@ -12,28 +12,28 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 
 ## Problems
 
-| Number | Title                              |      Solution       | Notes |
-| ------ | ---------------------------------- | :-----------------: | :---: |
-| 001    | Multiples of 3 and 5               |         ✔️          |  ✔️   |
-| 002    | Even Fibonacci Numbers             |         ✔️          |  ✔️   |
-| 003    | Largest Prime Factor               |         ✔️          |  ✔️   |
-| 004    | Largest Palindrome Product         |         ✔️          |  ✔️   |
-| 005    | Smallest Multiple                  |         ✔️          |  ✔️   |
-| 006    | Sum Square Difference              |         ✔️          |  ✔️   |
-| 007    | 10001st Prime                      |         ✔️          |  ✔️   |
-| 008    | Largest Product in a Series        |         ✔️          |  ✔️   |
-| 009    | Special Pythagorean Triplet        |         ✔️          |  ✔️   |
-| 010    | Summation of Primes                |         ✔️          |  ✔️   |
-| 011    | Largest Product in a Grid          |         ✔️          |  ✔️   |
-| 012    | Highly Divisible Triangular Number |         ✔️          |  ✔️   |
-| 013    | Large Sum                          |         ✔️          |  ✔️   |
-| 014    | Longest Collatz Sequence           |         ✔️          |  ✔️   |
-| 015    | Lattice Path                       |         ✔️          |  ✔️   |
-| 016    | Power Digit Sum                    |         ✔️          |  ✔️   |
-| 017    | Number Letter Counts               |         ✔️          |  ✔️   |
-| 018    | Maximum Path Sum I                 |         ✔️          |  ✔️   |
-| 019    | Counting Sundays                   |         ✔️          |  ✔️   |
-|        | 020                                | Factorial Digit Sum |  ❌   | ❌ |  |
+| Number | Title                              | Solution | Notes |
+| ------ | ---------------------------------- | :------: | :---: |
+| 001    | Multiples of 3 and 5               |    ✔️    |  ✔️   |
+| 002    | Even Fibonacci Numbers             |    ✔️    |  ✔️   |
+| 003    | Largest Prime Factor               |    ✔️    |  ✔️   |
+| 004    | Largest Palindrome Product         |    ✔️    |  ✔️   |
+| 005    | Smallest Multiple                  |    ✔️    |  ✔️   |
+| 006    | Sum Square Difference              |    ✔️    |  ✔️   |
+| 007    | 10001st Prime                      |    ✔️    |  ✔️   |
+| 008    | Largest Product in a Series        |    ✔️    |  ✔️   |
+| 009    | Special Pythagorean Triplet        |    ✔️    |  ✔️   |
+| 010    | Summation of Primes                |    ✔️    |  ✔️   |
+| 011    | Largest Product in a Grid          |    ✔️    |  ✔️   |
+| 012    | Highly Divisible Triangular Number |    ✔️    |  ✔️   |
+| 013    | Large Sum                          |    ✔️    |  ✔️   |
+| 014    | Longest Collatz Sequence           |    ✔️    |  ✔️   |
+| 015    | Lattice Path                       |    ✔️    |  ✔️   |
+| 016    | Power Digit Sum                    |    ✔️    |  ✔️   |
+| 017    | Number Letter Counts               |    ✔️    |  ✔️   |
+| 018    | Maximum Path Sum I                 |    ✔️    |  ✔️   |
+| 019    | Counting Sundays                   |    ✔️    |  ✔️   |
+| 020    | Factorial Digit Sum                |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
