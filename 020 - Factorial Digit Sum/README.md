@@ -229,4 +229,53 @@ return digitsProduct.reverse();
 
 It is quite a complex function, but once you understand the way we move within `digitsProduct` and the way we consider the digits of the two members _backwards_, it starts to make a whole lot of sense. In the `multiplication.js` script you find the entire function, just to be safe.
 
-<!-- ### Wrap Up -->
+### Factorial
+
+In the excitement around the `multiplication` function, I almost forgot the problem was about adding the digits of a factorial. This however, requires a minor adjustment to the existing code. Minor relative to the previous section, at least.
+
+We start by initializing a variable in which to store the result of the multiplication. Since we plan to use the `multiplication` function, and this returns an array, we can actually initialize the variable to the array describing the first value `n`.
+
+```js
+function sumFactorialDigits(n) {
+  let product = digits(n);
+}
+```
+
+Iterating from `n-1` until `2`, we can then update the variable using the multiplication function.
+
+```js
+function sumFactorialDigits(n) {
+  let product = digits(n);
+  for (let i = n - 1; i > 1; i -= 1) {
+    product = multiplication(product, digits(i));
+  }
+
+  return product;
+}
+```
+
+One small hiccup: `multiplication()` might return an array, but expects as argument two integers. This is rapidly addressed, however: instead of splitting the integers within the multiplication function, we use the values received directly as the function is called.
+
+```diff
+-const digitsMultiplicand = digits(multiplicand);
+-const digitsMultiplier = digits(multiplier);
+
+-for (let i = digitsMultiplier.length - 1; i >= 0; i -= 1) {
++for (let i = multiplier.length - 1; i >= 0; i -= 1) {
+
+-for (let j = digitsMultiplicand.length - 1; j >= 0; j -= 1) {
++for (let j = multiplicand.length - 1; j >= 0; j -= 1) {
+
+-const digit = digitsMultiplier[i] * digitsMultiplicand[j];
++const digit = multiplier[i] * multiplicand[j];
+```
+
+`product` finally describes the result of the multiplication of `n * (n - 1) * (n - 2) * ... * 1`, and we can return the sum of its digits with a handy `reduce` function.
+
+```js
+return product.reduce((acc, curr) => acc + curr, 0);
+```
+
+---
+
+This was far from the most straightforward solution, but I hope you got something out of it. If you have any doubts or suggestion, let me know [@borntofrappe](https://twitter.com/borntofrappe). I'll try my best to address your questions.
