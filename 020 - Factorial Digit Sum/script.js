@@ -7,11 +7,12 @@ const multiplication = (multiplicand, multiplier) => {
     let indexColumn = 0;
     for (let j = multiplicand.length - 1; j >= 0; j -= 1) {
       const digit = multiplier[i] * multiplicand[j];
+      const index = indexRow + indexColumn;
 
-      if(product[indexRow + indexColumn] !== undefined) {
-        product[indexRow + indexColumn] += digit;
+      if(product[index] !== undefined) {
+        product[index] += digit;
       } else {
-        product[indexRow + indexColumn] = digit;
+        product[index] = digit;
       }
       indexColumn += 1;
     }
