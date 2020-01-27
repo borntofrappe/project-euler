@@ -92,3 +92,56 @@ return divisors.sort((a, b) => a - b);
 ```
 
 You can find the function, sorting included, in the script bearing the same name.
+
+### areAmicable
+
+This is a rather irresponsible approach, but we can describe if two numbers are amicable by with the `properDivisor` function.
+
+1. find the proper divisors for both numbers
+
+   ```js
+   function areAmicable(num1, num2) {
+     const factors1 = properDivisors(num1);
+     const factors2 = properDivisors(num2);
+   }
+   ```
+
+1. add the values with a handy reduce function
+
+   ```js
+   function areAmicable(num1, num2) {
+     const factors1 = properDivisors(num1);
+     const factors2 = properDivisors(num2);
+
+     const sum1 = factors1.reduce((acc, curr) => acc + curr, 0);
+     const sum2 = factors2.reduce((acc, curr) => acc + curr, 0);
+   }
+   ```
+
+1. compare the values
+
+   ```js
+   function areAmicable(num1, num2) {
+     const factors1 = properDivisors(num1);
+     const factors2 = properDivisors(num2);
+
+     const sum1 = factors1.reduce((acc, curr) => acc + curr, 0);
+     const sum2 = factors2.reduce((acc, curr) => acc + curr, 0);
+
+     if (sum1 === num2 && sum2 === num1) {
+       return true;
+     }
+     return false;
+   }
+   ```
+
+It can be improved in many ways, from adding the factors immediately as they are returned from the `properDivisor` function to preemptively return false if the first sum is already different from the second number. That being said, it does work.
+
+```js
+areAmicable(10, 50); // false
+areAmicable(220, 284); // true
+```
+
+You can find a slightly improved version in `areAmicable.js`, but here I decided to re-consider the entire function to find a better solution.
+
+This is because, even with the improvements, the code will result in an infinite for loop when considering the numbers below the input value.
