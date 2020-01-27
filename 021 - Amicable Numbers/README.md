@@ -91,7 +91,7 @@ Looking at `properDivisors(20)`, the numbers are not in order <!-- you are out o
 return divisors.sort((a, b) => a - b);
 ```
 
-You can find the function, sorting included, in the script bearing the same name.
+You can find the function, sorting included, in `properDivisor.js`.
 
 ### areAmicable
 
@@ -144,4 +144,4 @@ areAmicable(220, 284); // true
 
 You can find a slightly improved version in `areAmicable.js`, but here I decided to re-consider the entire function to find a better solution.
 
-This is because, even with the improvements, the code will result in an infinite for loop when considering the numbers below the input value.
+### amicableNumbers
