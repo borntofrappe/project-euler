@@ -145,3 +145,153 @@ areAmicable(220, 284); // true
 You can find a slightly improved version in `areAmicable.js`, but here I decided to re-consider the entire function to find a better solution.
 
 ### amicableNumbers
+
+I consider this to be one of my crowning achievements, so bear with me as I try to explain my logic as cleanly as possible.
+
+```js
+function amicableNumbers(n) {
+  // Good luck
+}
+```
+
+Inspired by the _Sieve of Eratosthenes_ and the solution of problem #10, let's start with an array with as many as `n` items.
+
+```js
+function amicableNumbers(n) {
+  const numbers = Array(n);
+}
+```
+
+Without further specification, `Array(n)` returns an empty array, which will come in rather handy in a moment.
+
+Starting from the `numbers`, the idea is to loop through the array until a condition is met.
+
+```js
+function amicableNumbers(n) {
+  const numbers = Array(n);
+
+  while (true) {
+    // just to be cautious
+    break;
+  }
+}
+```
+
+In the `while` loop then, we proceed to "mark", "tag" the individual items with the following algorithm:
+
+- find the index of the first item which is `undefined`
+
+  ```js
+  function amicableNumbers(n) {
+    const numbers = Array(n);
+
+    while (true) {
+      const number = numbers.findIndex(number => number === undefined);
+
+      // just to be cautious
+      break;
+    }
+  }
+  ```
+
+- if there is no `undefined` value, `findIndex` returns `-1`, and in this instance we exit the loop.
+
+  ```js
+  function amicableNumbers(n) {
+    const numbers = Array(n);
+
+    while (true) {
+      const number = numbers.findIndex(number => number === undefined);
+
+      if (number === -1) {
+        break;
+      } else {
+        // where the magic happens
+      }
+    }
+  }
+  ```
+
+- if there is a match, we then proceed to look for an amicable number. Let's focus on the body of the `else` statement for the next few snippets.
+
+  First, we compute the sum of the factors for the given number.
+
+  ```js
+  const sum1 = properDivisors(number).reduce((acc, curr) => acc + curr, 0);
+  ```
+
+  - If `sum1` represents a value in the `numbers` array, and an `undefined` value at that, we then continue to consider the sum of the factors for that number
+
+    ```js
+    if (sum1 < numbers.length && numbers[sum1] === undefined) {
+      const sum2 = properDivisors(sum1).reduce((acc, curr) => acc + curr, 0);
+    }
+    ```
+
+    Why this condition? `sum1 < numbers.length` guarantees that we are targeting a value in the array. `sum === undefined` guarantees that the value hasn't already "marked", "tagged" as amicable, or not amicable. If either condition is met, the current value cannot have an amicable number below `n`, and we therefore update the value accordingly.
+
+    ```js
+    if (sum1 < numbers.length && numbers[sum1] === undefined) {
+      const sum2 = properDivisors(sum1).reduce((acc, curr) => acc + curr, 0);
+    } else {
+      numbers[number] = false;
+    }
+    ```
+
+    But if both return `true`, we continue in the `if` statement to compare the necessary values.
+
+  - once we compute `sum2`, we have access to three values:
+
+    - `number`, the current value;
+
+    - `sum1` the candidate for amicable number
+
+    - `sum2`, the sum of the factors for the candidate
+
+    If this last sum is equal to the current value, there we have a match. Almost at least.
+
+    Consider the sneaky number `6`: the sum of its factors is, you guessed it, `1+2+3=6`. This means that for the specific value, we would identify two amicable numbers which are one and the same. To avoid this, we can make sure to check that the two numbers differ from one another.
+
+    ```js
+    if (number === sum2 && number !== sum1) {
+      // match
+    }
+    ```
+
+    If there is a match, we then update both value setting a boolean flag to `true`. Else, we mark both values with the opposite values.
+
+
+    ```js
+    if (number === sum2 && number !== sum1) {
+      numbers[number] = true;
+      numbers[sum1] = true;
+    } else {
+      numbers[number] = false;
+      numbers[sum1] = false;
+    }
+    ```
+
+- once we managed to mark every item either `true` or `false`, we are left with a hefty array, filled with boolean values. The index of each item, conveniently enough, provides the actual number behind each flag. This means we can finally loop through the array, update the items with a `true` value, and finally filter out these numbers to identify the amicable pairs.
+
+```js
+return numbers.map((number, index) => (number ? index : null)).filter(number => number);
+```
+
+The code looks quite cumbersome, but once you grasp the different conditions and the idea of tagging the necessary values, it starts to make a whole lot of sense. Most importantly, however, it provides the desired value.
+
+```js
+amicableNumbers(2000); // [220, 284, 1184, 1210]
+```
+
+## Wrap Up
+
+You can find the `amicableNumbers` function in the script bearing the same name. This is because, while providing the amicable numbers, the code does not solve the challenge. As with many problems before it, one last line of code is necessary, to add the amicable numbers together and complete the task of finding the sum of the selected few below the input `n`.
+
+```js
+return numbers
+  .map((number, index) => (number ? index : null))
+  .filter(number => number)
+  .reduce((acc, curr) => acc + curr, 0);
+```
+
+---
