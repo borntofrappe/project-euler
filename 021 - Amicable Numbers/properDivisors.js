@@ -12,7 +12,7 @@ function properDivisors(num) {
     }
   }
 
-  return divisors;
+  return divisors.sort((a, b) => a - b);
 }
 
 properDivisors(20)
