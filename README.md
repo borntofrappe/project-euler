@@ -34,7 +34,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 018    | Maximum Path Sum I                 |    ✔️    |  ✔️   |
 | 019    | Counting Sundays                   |    ✔️    |  ✔️   |
 | 020    | Factorial Digit Sum                |    ✔️    |  ✔️   |
-| 021    | Amicable Numbers                   |    ✔️    |  ❌   |
+| 021    | Amicable Numbers                   |    ✔️    |  ✔️   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
