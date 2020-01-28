@@ -35,7 +35,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 019    | Counting Sundays                   |    ✔️    |  ✔️   |
 | 020    | Factorial Digit Sum                |    ✔️    |  ✔️   |
 | 021    | Amicable Numbers                   |    ✔️    |  ✔️   |
-| 022    | Names Scores                       |    ❌    |  ❌   |
+| 022    | Names Scores                       |    ✔️    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
