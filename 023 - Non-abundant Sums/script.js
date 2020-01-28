@@ -22,11 +22,11 @@ function isAbundant(n) {
 }
 
 function sumOfNonAbundantNumbers(n) {
-  const abundantNumbers = [];
   const numbers = Array(n).fill('').map((val, index) => ({
     value: index,
     canBeSummed: false,
   }));
+  const abundantNumbers = [];
   for(let i = 0; i < n; i += 1) {
     if(isAbundant(i)) {
       abundantNumbers.push(i);
@@ -35,7 +35,7 @@ function sumOfNonAbundantNumbers(n) {
         if(index < n && !numbers[index].canBeSummed) {
           numbers[index].canBeSummed = true;
         }
-        if(index > n) {
+        if(index >= n) {
           break;
         }
       }
@@ -44,4 +44,4 @@ function sumOfNonAbundantNumbers(n) {
   return numbers.filter(({canBeSummed}) => !canBeSummed).reduce((acc, curr) => acc + curr.value, 0);
 }
 
-sumOfNonAbundantNumbers(28123);
+console.log(sumOfNonAbundantNumbers(28123));
