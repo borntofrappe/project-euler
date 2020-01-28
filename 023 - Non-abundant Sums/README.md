@@ -91,3 +91,17 @@ checkAbundance(12); // abundant 1 + 2 + 3 + 4 + 6 > 12
 ```
 
 In the `checkAbundance.js` script you find the code, with a for loop log the abundance of the first twenty numbers in the console.
+
+### abundantNumbers
+
+To find the values which _cannot be written as the sum of two abundant numbers_, it seems natural to look for abundant numbers first. I am still unsure as to how to go about finding the sum of these values, but one step at a time.
+
+Modifying the existing code, we can return a boolean depending on whether the sum is greater than the input value, without worrying any more about perfect or deficient numbers.
+
+```js
+function isAbundant(n) {
+  const divisors = properDivisors(n);
+  const sum = divisors.reduce((acc, curr) => acc + curr, 0);
+  return sum > n;
+}
+```
