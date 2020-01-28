@@ -25,7 +25,7 @@ namesScores(test1);
 
 ## Notes
 
-Starting with an inefficient approach, let's try to understand the problem at hand.
+Let's try to find a solution incrementally, breaking down the larger function in smaller units.
 
 ### sortAlphabetically
 
@@ -52,29 +52,68 @@ You could even refactor the code to an arrow function if you feel particularly i
 const sortAlphabetically = arr => arr.sort((a, b) => (a > b ? 1 : -1));
 ```
 
+### scoreName
+
+To score the individual names, we can loop through the input array with a handy `reduce` function, but let's first address how to score a single item.
+
+```js
+function scoreName(position, name) {}
+```
+
+Notice that I specified two parameters for the position and the name. The position will actually be dictated by the index in the array, but here is considered as a given.
+
+Following the problem's guidelines, the score of the letters matches the difference between each letter and the letter `A`, capitalized.
+
+```js
+function scoreName(position, name) {
+  const score = name.split("").reduce((acc, curr) => acc + curr.charCodeAt(0) - "A".charCodeAt(0) + 1, 0);
+  return score;
+}
+```
+
+Here we split the letters in an array, and a helpful `reduce` function incrementally builds the score. We add `1` to each current value since the letter 'A', capitalized, is considered to be the first, 'B' the second and so forth.
+
+For an arbitrary value, for instance:
+
+```js
+scoreName(938, "COLIN"); // 53
+```
+
+Not the actual score of the name, but already the score of the letters making up the string "COLIN". For the real value, we need to consider the position as well.
+
+```js
+function scoreName(position, name) {
+  const score = name.split("").reduce((acc, curr) => acc + curr.charCodeAt(0) - "A".charCodeAt(0) + 1, 0);
+  return position * score;
+}
+```
+
+Finally reaching the desired value.
+
+```js
+scoreName(938, "COLIN"); // 49714
+```
+
 ### scoreNames
 
-With the sorted array, we can loop through the array with a handy `reduce` function.
+Once we understand how each name is split and weighed according to the individual letters, considering the score of an array of names should be a rapid step forward.
 
 ```js
 function scoreNames(arr) {
   return arr.reduce((acc, curr, index) => {
-    const order = index + 1;
+    const position = index + 1;
     const score = curr.split("").reduce((acc, curr) => acc + curr.charCodeAt(0) - "A".charCodeAt(0) + 1, 0);
-    return [...acc, score * order];
+    return [...acc, score * position];
   }, []);
 }
 ```
 
-We split each word in an array describing its characters, and add their number relative to the letter `A`, capitalized.
+For each word, we consider the score exactly like in the previous section, and then add the value to an array. Instead of using an arbitrary `position` however, we use the very own index within the array. Index incremented by `1` to match the problem's requirements. "COLIN" being the `938`-th name apparently means that "COLIN" is actually the `937`-th item.
 
-I wasn't unsure whether to consider the first item as the `0`-th, but it seems we count the order starting from `1`. For the same reason, we add `1` when considering the code of each capital letter.
-
-Here we return the score of the individual items:
+Coming back to the `reduce` function, this one returns the score of the individual words.
 
 ```js
-const test3 = ["COLIN", "TIM"];
-scoreNames(test3); // [53, 84]
+scoreNames(["COLIN", "TIM"]); // [53, 84]
 ```
 
 But we can already add the values together in the body of the `reduce` function.
@@ -88,12 +127,12 @@ function scoreNames(arr) {
   }, 0);
 }
 
-scoreNames(test3); // 137
+scoreNames(["COLIN", "TIM"]); // 137
 ```
 
 ### namesScores
 
-Going back to the function given in the setup phase, we can tie everything together and prep for an inevitable error message.
+Going back to the function given in the setup phase, we can tie everything together in `namesScores(arr)`. We can actually chain the operations described so far one after the other, sorting the array and then immediately reducing the data structure to the desired score.
 
 ```js
 function namesScores(arr) {
@@ -107,4 +146,19 @@ function namesScores(arr) {
 }
 ```
 
-Surprise. It did not fail.
+It works with both `test1` and `test2`.
+
+```js
+namesScores(test1); // 791
+namesScores(test2); // 1468
+```
+
+And surprisingly enough, it works with the larger `names` array as well.
+
+```js
+namesScores(names); // 871198282
+```
+
+---
+
+I was genuinely surprised to see the problem cleared so rapidly, and with very little trial and effort. I didn't even get a chance to consider an alternative approach. If you have, let me know [@borntofrappe](https://twitter.com/borntofrappe). I'm sure I'll have plenty to learn from you.
