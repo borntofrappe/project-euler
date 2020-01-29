@@ -37,6 +37,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 021    | Amicable Numbers                   |    ✔️    |  ✔️   |
 | 022    | Names Scores                       |    ✔️    |  ✔️   |
 | 023    | Non-abundant Sums                  |    ✔️    |  ✔️   |
+| 024    | Lexicographic Permutations         |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
