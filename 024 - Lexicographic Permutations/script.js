@@ -13,7 +13,7 @@ function lexicographicPermutations(n) {
 
   for(let i = digits.length - 1; i >= 0; i -= 1) {
     const factor = factorial(i);
-    const index = Math.floor(index / factor);
+    const index = Math.floor(excess / factor);
     numbers.push(digits[index]);
     digits = [...digits.slice(0, index), ...digits.slice(index + 1)];
     excess -= factor * index;

@@ -206,3 +206,7 @@ Past the for loop, we have stored in the `numbers` array the desired numbers. To
 ```js
 return parseInt(numbers.join(""), 10);
 ```
+
+---
+
+It took me a solid day and a half, but I'm quite proud to have found a solution, considering the possible permutations of 2, 3, ..., 10 digits. I'm quite positive to have stumbled on the most efficient approach as well, and for once. If you know of a better however, you know where I'm at, [@borntofrappe](https://twitter.com/borntofrappe).
