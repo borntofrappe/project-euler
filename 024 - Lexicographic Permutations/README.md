@@ -23,14 +23,14 @@ lexicographicPermutations(999999);
 
 For two digits, there are two possible ways we can organize the digits.
 
-```
+```code
 01
 10
 ```
 
 For three, the ways become `6`
 
-```
+```code
 012
 021
 102
@@ -39,9 +39,9 @@ For three, the ways become `6`
 210
 ```
 
-This relationship is described by the factorial, `3! = 3 * 2 * 1 = 6`.
+This relationship is described by the factorial: `3! = 3 * 2 * 1 = 6`.
 
-For ten digits, we end up with `10!`.
+For ten digits, we'd end up with `10!`...
 
 With a handy `factorial` function:
 
@@ -68,9 +68,9 @@ factorial(9); // 362880
 
 Quite obvious since we just needed to remove a `0`, but I didn't realize that sooner. If we know this, we come to realize that there are `362880` possibilities before we exhaust every string beginning with the number `0`. In other words, `1023456789` is the `362881`-th digit in the series.
 
-If that makes sense, there are again `362880` possibilities to sort strings beginning with `1`, leading us to consider that `2013456789` ought to be the `362880 \* 2 + 1 = 725761` value.
+If that makes sense, there are again `362880` possibilities to sort strings beginning with `1`, leading us to consider that `2013456789` ought to be the `362880 * 2 + 1 = 725761` value.
 
-Looking at the tests describe on the [freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-24-lexicographic-permutations), it almost looks like a sound logic. The `699999` number begins with `1`; the `899999` with a `2`.
+Looking at the tests describe on the [freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-24-lexicographic-permutations), it almost looks like a sound logic. The `699999`-th number begins with `1`; the `899999`-th with a `2`.
 
 The biggest challenge becomes how to extend this thinking to successive digits. Not to mention the final hurdle of translating this "approach" into code.
 
@@ -82,13 +82,17 @@ Let's consider `699999` and try to think in increments:
 
 - compute the difference: `699999 - 362880 = 337119`
 
+Given this, we already know that the string begins with `1`. What's more, we come to look for the `337119`-nth number out of the remaining characters.
+
+Repeating the same logic for one less digit:
+
 - compute the factorial of `8`: `40320`
 
-- integer division: `Math.floor(337119 / 40320) = 8`. I would say gripes, but consider how `8` actually describes the eight number. We used `1`, and without those two, the eighth value is actually `9`
+- integer division: `Math.floor(337119 / 40320) = 8`. I would say gripes, but consider how `8` actually describes the eight number. We used `1`, and therefore the eighth value is actually `9`.
 
-This might actually work. Let me describe the successive steps with a handy table.
+This might actually work. Let me describe the steps in a table just to be safe.
 
-| Input  | Factorial | Integer Division | Sequence   | Remaining | Difference            |
+| index  | Factorial | Integer Division | Sequence   | Remaining | Difference            |
 | ------ | --------- | ---------------- | ---------- | --------- | --------------------- |
 | 699999 | 362880    | 1                | 1          | 023456789 | `699999 - 362880 * 1` |
 | 337119 | 40320     | 8                | 19         | 02345678  | `337119 - 40320 * 8`  |
@@ -100,3 +104,7 @@ This might actually work. Let me describe the successive steps with a handy tabl
 | 3      | 2         | 1                | 19382465   | 07        | `3 - 2 * 1`           |
 | 1      | 1         | 1                | 193824657  | 0         | `1 - 1 * 1`           |
 | 0      | 1         | 0                | 1938246570 |           | `3 - 2 * 1`           |
+
+Double checking the value, the sequence comes to match `1938246570`, and I'm almost giddy at the realization.
+
+What's left, is the implementation in code of this incredibly efficient logic.
