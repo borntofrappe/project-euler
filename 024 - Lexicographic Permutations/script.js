@@ -7,16 +7,16 @@ const factorial = n => {
 
 function lexicographicPermutations(n) {
   let digits = [0,1,2,3,4,5,6,7,8,9];
-  const numbers = [];
 
-  let index = n;
+  const numbers = [];
+  let excess = n;
 
   for(let i = digits.length - 1; i >= 0; i -= 1) {
-    const locks = factorial(i);
-    const round = Math.floor(index / locks);
-    numbers.push(digits[round]);
-    digits = [...digits.slice(0, round), ...digits.slice(round + 1)];
-    index -= locks * round;
+    const factor = factorial(i);
+    const index = Math.floor(index / factor);
+    numbers.push(digits[index]);
+    digits = [...digits.slice(0, index), ...digits.slice(index + 1)];
+    excess -= factor * index;
   }
 
   return parseInt(numbers.join(""), 10);

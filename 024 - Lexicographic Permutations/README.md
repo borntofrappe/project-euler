@@ -108,3 +108,101 @@ This might actually work. Let me describe the steps in a table just to be safe.
 Double checking the value, the sequence comes to match `1938246570`, and I'm almost giddy at the realization.
 
 What's left, is the implementation in code of this incredibly efficient logic.
+
+### lexicographicPermutations
+
+We start with an array describing the ten possible digits:
+
+```js
+function lexicographicPermutations(n) {
+  let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+}
+```
+
+To this, we pair an array in which to store the numbers of the sequence, and a variable to keep track of the remaining value.
+
+```js
+function lexicographicPermutations(n) {
+  let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const numbers = [];
+  let excess = n;
+}
+```
+
+We then proceed to set up the loop scheduled to run 9 times. Or rather, `digits.length - 1` times.
+
+```js
+function lexicographicPermutations(n) {
+  let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const numbers = [];
+  let excess = n;
+
+  for (let i = digits.length - 1; i >= 0; i -= 1) {}
+}
+```
+
+And here we replicate the logic described in the previous section. Apologies for the naming convention, but I decided to label the factorial as `factor`, and the integer division as `index`. This last one since it allows to identify the item in the `digits` array we need to consider at each iteration.
+
+```js
+function lexicographicPermutations(n) {
+  let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const numbers = [];
+  let excess = n;
+
+  for (let i = digits.length - 1; i >= 0; i -= 1) {
+    // factorial
+    const factor = factorial(i);
+    // integer division
+    const index = Math.floor(index / factor);
+  }
+}
+```
+
+With this information we can then:
+
+- add the desired digit to `numbers`:
+
+```js
+for (let i = digits.length - 1; i >= 0; i -= 1) {
+  const factor = factorial(i);
+  const index = Math.floor(index / factor);
+
+  numbers.push(digits[index]);
+}
+```
+
+- remove the item from `digits`:
+
+```js
+for (let i = digits.length - 1; i >= 0; i -= 1) {
+  const factor = factorial(i);
+  const index = Math.floor(index / factor);
+
+  numbers.push(digits[index]);
+  digits = [...digits.slice(0, index), ...digits.slice(index + 1)];
+}
+```
+
+- update the counter variable to consider the next iteration and 1 less digit.
+
+```js
+for (let i = digits.length - 1; i >= 0; i -= 1) {
+  const factor = factorial(i);
+  const index = Math.floor(index / factor);
+
+  numbers.push(digits[index]);
+  digits = [...digits.slice(0, index), ...digits.slice(index + 1)];
+  excess -= factor * index;
+}
+```
+
+### Wrap Up
+
+Past the for loop, we have stored in the `numbers` array the desired numbers. To complete the challenge, we then return the actual integer made up of the different unit values:
+
+```js
+return parseInt(numbers.join(""), 10);
+```
