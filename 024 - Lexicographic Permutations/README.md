@@ -103,7 +103,7 @@ This might actually work. Let me describe the steps in a table just to be safe.
 | 15     | 6         | 2                | 1938246    | 057       | `15 - 6 * 2`          |
 | 3      | 2         | 1                | 19382465   | 07        | `3 - 2 * 1`           |
 | 1      | 1         | 1                | 193824657  | 0         | `1 - 1 * 1`           |
-| 0      | 1         | 0                | 1938246570 |           | `3 - 2 * 1`           |
+| 0      | 1         | 0                | 1938246570 |           | `0`                   |
 
 Double checking the value, the sequence comes to match `1938246570`, and I'm almost giddy at the realization.
 
