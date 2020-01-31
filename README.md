@@ -39,6 +39,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 023    | Non-abundant Sums                  |    ✔️    |  ✔️   |
 | 024    | Lexicographic Permutations         |    ✔️    |  ✔️   |
 | 025    | 1000-digit Fibonacci Number        |    ✔️    |  ✔️   |
+| 026    | Reciprocal Cycles                  |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
