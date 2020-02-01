@@ -1,4 +1,3 @@
-// x / y in long division
 const longDivision = (x, y) => {
   const sequence = [{
     dividend: x,
@@ -9,44 +8,39 @@ const longDivision = (x, y) => {
 
   let pattern;
 
-  while(sequence[sequence.length - 1].remainder !== 0 && pattern === undefined) {
+  while(sequence[sequence.length - 1].remainder !== 0 && !pattern) {
     let { dividend, divisor, quotient } = sequence[sequence.length - 1];
 
     let integerDivision = Math.floor(dividend / divisor);
 
-    // add a decimal point if necessary and if not already included
     if(!quotient.includes(".") && integerDivision < 1) {
       quotient += '.';
     }
 
-    // multiply the divided by 10 until you get a positive integer division
     while(integerDivision < 1) {
       dividend *= 10;
       integerDivision = Math.floor(dividend / divisor);
     }
 
     const remainder = dividend % divisor;
+    quotient += integerDivision;
 
     const index = sequence.findIndex(element => element.dividend === remainder && element.remainder === remainder);
     if(index !== -1) {
       const decimal = quotient.split("").findIndex(value => value === '.');
-      console.log(decimal + index);
       pattern = quotient.slice(decimal + index + 1);
     }
 
     sequence.push({
       dividend: remainder,
       divisor,
-      quotient: quotient + integerDivision,
+      quotient,
       remainder,
     });
 
   }
-  return {
-    sequence,
-    pattern
-  };
+  return sequence[sequence.length - 1].quotient;
 };
 
-longDivision(1, 7);
+longDivision(1, 7); // "0.142857"
 

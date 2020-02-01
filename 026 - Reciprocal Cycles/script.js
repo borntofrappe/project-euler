@@ -1,5 +1,4 @@
-// x / y in long division
-const longDivisionPattern = (d) => {
+const divisionPattern = (d) => {
   const sequence = [{
     dividend: 1,
     divisor: d,
@@ -14,12 +13,10 @@ const longDivisionPattern = (d) => {
 
     let integerDivision = Math.floor(dividend / divisor);
 
-    // add a decimal point if necessary and if not already included
     if(!quotient.includes(".") && integerDivision < 1) {
       quotient += '.';
     }
 
-    // multiply the divided by 10 until you get a positive integer division
     while(integerDivision < 1) {
       dividend *= 10;
       integerDivision = Math.floor(dividend / divisor);
@@ -51,7 +48,7 @@ function reciprocalCycles(n) {
     pattern: '',
   }
   for(let i = 2; i < n; i += 1) {
-    const pattern = longDivisionPattern(i);
+    const pattern = divisionPattern(i);
     if(pattern && pattern.length > cycle.pattern.length) {
       cycle.d = i;
       cycle.pattern = pattern;
@@ -60,4 +57,4 @@ function reciprocalCycles(n) {
   return cycle.d;
 }
 
-reciprocalCycles(100);
+console.log(reciprocalCycles(1000)); // 983
