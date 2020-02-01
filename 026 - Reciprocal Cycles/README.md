@@ -367,3 +367,5 @@ function reciprocalCycles(n) {
 ```
 
 ---
+
+It took quite a while, certainly a lot more effort than the previous problem, but we eventually cleared the challenge with a rather beautiful function. Beautiful, if long. If you have an improvement in mind, or a better solution altogether, let me know [@borntofrappe](https://twitter.com/borntofrappe).
