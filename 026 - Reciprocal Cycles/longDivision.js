@@ -1,26 +1,22 @@
 // x / y in long division
 const longDivision = (x, y) => {
-  // use let since dividend and remainder need to be updated
-  let dividend = x;
-  let divisor = y;
-  let remainder = dividend % divisor;
+  const sequence = [{
+    dividend: x,
+    divisor: y,
+    quotient: `${Math.floor(x / y)}`,
+    remainder: x % y,
+  }];
 
-  // variable describing the repeating pattern, if existing
   let pattern;
 
-  // array describing the different digits of the division
-  // initialized with the integer division if there's already no remainder
-  const quotient = remainder === 0 ? [dividend / divisor] : [];
+  while(sequence[sequence.length - 1].remainder !== 0 && pattern === undefined) {
+    let { dividend, divisor, quotient } = sequence[sequence.length - 1];
 
-  // continue until the remainder is equal to zero
-  // ! be sure to add a condition to break out of the while loop as you find a repeating pattern
-  while(remainder !== 0 && pattern === undefined) {
-    // integer division
     let integerDivision = Math.floor(dividend / divisor);
 
     // add a decimal point if necessary and if not already included
     if(!quotient.includes(".") && integerDivision < 1) {
-      quotient.push(".");
+      quotient += '.';
     }
 
     // multiply the divided by 10 until you get a positive integer division
@@ -29,31 +25,28 @@ const longDivision = (x, y) => {
       integerDivision = Math.floor(dividend / divisor);
     }
 
-    // add the result of the integer division to the quotient array
-    quotient.push(integerDivision);
+    const remainder = dividend % divisor;
 
-    if(quotient.includes(".")) {
-      // break if you find a repeating pattern
-      const decimalPoint = quotient.findIndex(item => item === ".");
-      // starting from the end of the decimal values, consider if the string repeats itself
-      const decimalValues = quotient.slice(decimalPoint + 1).reverse();
-      for(let i = 1; i <= Math.floor(decimalValues.length / 2); i += 1) {
-        if(decimalValues.slice(0, i).join("") === decimalValues.slice(i, i * 2).join("")) {
-          pattern = decimalValues.slice(0, i);
-
-          quotient.pop();
-        }
-      }
+    const index = sequence.findIndex(element => element.dividend === remainder && element.remainder === remainder);
+    if(index !== -1) {
+      const decimal = quotient.split("").findIndex(value => value === '.');
+      console.log(decimal + index);
+      pattern = quotient.slice(decimal + index + 1);
     }
 
-    // update the remainder and dividend
-    remainder = dividend % divisor;
-    dividend = remainder;
+    sequence.push({
+      dividend: remainder,
+      divisor,
+      quotient: quotient + integerDivision,
+      remainder,
+    });
+
   }
-  return parseFloat(quotient.join(""));
+  return {
+    sequence,
+    pattern
+  };
 };
 
+longDivision(1, 7);
 
-for(let i = 2; i < 10; i += 1) {
-  console.log(`1/${i} = ${longDivision(1, i)}`);
-}
