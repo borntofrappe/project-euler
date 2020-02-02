@@ -105,8 +105,12 @@ Apologies for the misinterpretation. Just understanding the problem took a bit o
 
 ### b
 
+- prime below `range`
+
 ### a
 
-### n
+- `-range < a < range`
+
+### n\*\*2 + na + b??
 
 <!-- ## Wrap Up -->
