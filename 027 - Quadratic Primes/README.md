@@ -55,7 +55,7 @@ Using the sieve of Erathosthenes, we can find the prime numbers below the four d
 function primes(n) {
   const numbers = Array(n - 2)
     .fill("")
-    .map((val, index) => ({
+    .map((num, index) => ({
       isPrime: true,
       number: index + 2
     }));
@@ -90,3 +90,23 @@ const thousandPrimes = primes(1000);
 ```
 
 We find an array of `168` items, which is hefty, but certainly an improvement from the `2000` possibilities of the previous range.
+
+### Update
+
+Re-considering the actual text of the challenge, and most importantly the function given in the setup, it seems `range` is actually given as the input of the function. I was misled to consider the input would be `n`, describing the number of consecutive prime numbers to actually find. This certainly clears things up, and most practically means we care about the prime numbers below the input value:
+
+```js
+function quadraticPrimes(range) {
+  const primesRange = primes(range);
+}
+```
+
+Apologies for the misinterpretation. Just understanding the problem took a bit of effort on my part.
+
+### b
+
+### a
+
+### n
+
+<!-- ## Wrap Up -->

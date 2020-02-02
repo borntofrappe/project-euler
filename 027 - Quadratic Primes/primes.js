@@ -1,7 +1,7 @@
 function primes(n) {
   const numbers = Array(n - 2)
     .fill("")
-    .map((val, index) => ({
+    .map((num, index) => ({
       isPrime: true,
       number: index + 2
     }));
