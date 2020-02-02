@@ -105,12 +105,189 @@ Apologies for the misinterpretation. Just understanding the problem took a bit o
 
 ### b
 
+As mentioned, `b` is supposed to be a prime number below the input `range`. With this in mind, the function begins by finding an array of the necessary prime numbers. We can loop through said numbers to find the candidate which is able to generate the most consecutive numbers.
+
+```js
+function quadraticPrimes(range) {
+  const primesRange = primes(range);
+  for (let i = 0; i < primesRange.length; i += 1) {
+    const b = primesRange[i];
+  }
+}
+```
+
 - prime below `range`
 
 ### a
 
-- `-range < a < range`
+Given the prime `b` value, `a` is an integer in the `[-range, range]` interval. If I were more knowledgeable about quadratic equations I might have been able to find a more efficient interval, but let's start with the given boundaries.
 
-### n\*\*2 + na + b??
+```js
+function quadraticPrimes(range) {
+  const primesRange = primes(range);
+  for (let i = 0; i < primesRange.length; i += 1) {
+    const b = primesRange[i];
+    for (let a = range * -1 + 1; a < range; a += 1) {}
+  }
+}
+```
 
-<!-- ## Wrap Up -->
+### n^2 + na + b
+
+In the nested for loop, we then consider the values for `a` and `b` in the quadratic expression `n^2 + na + b`. Starting with `n = 0`, we continue until we find a number that is not prime.
+
+```js
+function quadraticPrimes(range) {
+  const primesRange = primes(range);
+  for (let i = 0; i < primesRange.length; i += 1) {
+    const b = primesRange[i];
+    for (let a = range * -1 + 1; a < range; a += 1) {
+      let n = 0;
+      while(???) {
+        n + = 1;
+      }
+    }
+  }
+}
+```
+
+To determine if `n ** 2 + a * n + b` provides a prime number, we can immediately check if the result of the equation is included in `primesRange`. This won't be enough, as the equation will inevitably exceed the values stored below the input `range`, but provides a solid basis from which to start.
+
+```js
+while (primesRange.includes(n ** 2 + a * n + b)) {
+  // prime
+}
+```
+
+Past the numbers expressed in the range, we need to attest if the result is still prime. To this end, I decided to create yet another function, in which the logic of the Sieve of Erathostenes is applied to return a boolean.
+
+```js
+function isPrimeNumber(n) {
+  if (n < 2) {
+    return false;
+  }
+  if (n % 2 === 0 || n % 3 === 0) {
+    return n === 2 || n === 3;
+  }
+  for (let i = 5; i < Math.sqrt(n); i += 1) {
+    if (n % i === 0) {
+      return false;
+    }
+    for (let j = i ** 2; j < n; j += i) {
+      if (n % j === 0) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+```
+
+This starts to be quite inefficient, but we can limit the use of the function when `n` exceeds the last value available in the `primesRange` array.
+
+```js
+while (primesRange.includes(n ** 2 + a * n + b) || (n > primesRange[primesRange.length - 1] && isPrimeNumber(n ** 2 + a * n + b))) {
+  // prime
+}
+```
+
+Quite a long expression, but one that does the trick. If the result is included in `primesRange`, it is prime. If it exceeds this array and the `isPrimeNumber` returns an affirmative boolean, the result is yet again prime, and the `while` loop continues.
+
+### Solution
+
+We are looping through the necessary values, but need a data structure in which to stored the values, most prominently `a` and `b`, as to ultimately provide the desired product. Going back to the `quadraticPrimes` and trying to tie everything together, we begin by describing the three variables in an object.
+
+```js
+function quadraticPrimes(range) {
+  const primesRange = primes(range);
+
+  const solution = {
+    n: 0,
+    a: 0,
+    b: 0
+  };
+}
+```
+
+`n` is necessary to keep track of the consecutive prime numbers, and as a way to update `a` and `b` in the moment the two identify a longer streak.
+
+With this setup, we then proceed to loop through the values as explained earlier.
+
+```js
+function quadraticPrimes(range) {
+  const primesRange = primes(range);
+
+  const solution = {
+    n: 0,
+    a: 0,
+    b: 0
+  };
+
+  for (let i = 0; i < primesRange.length; i += 1) {
+    const b = primesRange[i];
+    for (let a = range * -1 + 1; a < range; a += 1) {
+      let n = 0;
+      while (primesRange.includes(n ** 2 + a * n + b) || (n ** 2 + a * n + b > primesRange[primesRange.length - 1] && isPrimeNumber(n ** 2 + a * n + b))) {
+        n += 1;
+      }
+      if (n > solution.n) {
+        solution.n = n;
+        solution.a = a;
+        solution.b = b;
+      }
+    }
+  }
+}
+```
+
+The `solution` object is updated according to the newfound series of consecutive prime numbers. That being said, we can actually improve the nested for loop by re-considering the accepted value for `a`.
+
+### a/2
+
+To restrict the accepted values of `b`, we considered the special instance in which `n = 0`. Considering the next iteration, and `n = 1`, we can further cut down on the number of checks looking at the variable `a`.
+
+When `n = 1` we are left with `1 + a + b`
+
+```code
+1 + a + b = prime
+```
+
+Since this expression needs to be a prime, we can limit `a` by looking at `b + 1`. Except when `b` is equal to `2`, the variable is always odd. Otherwise, it would not be prime. In this instance `b + 1` is always even, and `a` must be odd. Otherwise, the expression would generate an even, non prime number.
+
+If that sounds twisted, consider an arbitrary prime number for `b`:
+
+```code
+1 + a + 3
+a + 4
+```
+
+`a + 4` must be prime, which means `a` cannot be even.
+
+In most practical terms, this allows to reduce the number of checks with an additional `if` statement:
+
+```js
+for (let i = 0; i < primesRange.length; i += 1) {
+  const b = primesRange[i];
+  for (let a = range * -1 + 1; a < range; a += 1) {
+    if (!(b === 2 && a % 2 !== 0)) {
+      // check for prime numbers
+    }
+  }
+}
+```
+
+Look for prime numbers as long as `a` can generate a prime number when `n = 1`.
+
+### Wrap Up
+
+In the confusion generated by while and for loops, I left out one key line of code to actually return the number expected by the problem.
+
+```js
+return solution.a * solution.b;
+```
+
+Providing a valid, although questionable in its efficiency, solution.
+
+---
+
+With this problem I was able to practice with comparisons operators and boolean expressions. I would like to find a more efficient solution, perhaps setting up a simpler condition in the nested loop, but I cannot fathom a way to create a set of prime numbers which account for every possibility past `range`. If you are more mathematically inclined, feel free to disperse your knowledge, I'm [@borntofrappe](https://twitter.com/borntofrappe).
