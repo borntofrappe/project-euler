@@ -42,6 +42,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 026    | Reciprocal Cycles                  |    ✔️    |  ✔️   |
 | 027    | Quadratic Primes                   |    ✔️    |  ✔️   |
 | 028    | Number Spiral Diagonals            |    ✔️    |  ✔️   |
+| 029    | Distinct Powers                    |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
