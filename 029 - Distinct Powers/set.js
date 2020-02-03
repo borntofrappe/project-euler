@@ -2,13 +2,10 @@ function distinctPowers(n) {
   const powers = [];
   for (let a = 2; a <= n; a += 1) {
     for (let b = 2; b <= n; b += 1) {
-      const power = a ** b;
-      if(!powers.includes(power)) {
-        powers.push(power);
-      }
+      powers.push(a ** b);
     }
   }
-  return powers.length;
+  return new Set(powers).size;
 }
 
 console.log(distinctPowers(30));
