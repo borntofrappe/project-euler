@@ -26,3 +26,7 @@ function digitnPowers(n) {
 
 digitnPowers(5);
 ```
+
+## Notice
+
+The code described in both scripts gives rise to a potential infinite loop. When testing the project [on the freeCodeCamp platform](https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-30-digit-n-powers) however, the code passes the tests, albeit slowly. In the developer console both approaches actually produce the desired result, and rather rapidly. The logic seems to be sound, but inefficient.
