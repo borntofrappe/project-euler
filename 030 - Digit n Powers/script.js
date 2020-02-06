@@ -9,35 +9,46 @@ function maxDigits(n) {
   return digits;
 }
 
-function nextDigit(n) {
-
+function nextDigit(digits, j) {
+  for(let i = digits.length - 1; i >= 0; i -= 1) {
+    if(i > j) {
+      digits[i] = 0;
+    } else {
+      if(i === j) {
+        digits[i] += 1;
+      }
+      if(i > 0 && digits[i] > 9) {
+        digits[i] = 0;
+        digits[i - 1] += 1;
+      }
+    }
+  }
+  return parseInt(digits.join(""), 10);
 }
+
 function digitnPowers(n) {
   const lowerThreshold = 10;
   const upperThreshold = 10 ** (maxDigits(n) -1);
   const powers = Array(10).fill(0).map((value, index) => index ** n);
   let solution = 0;
   for(let i = lowerThreshold; i < upperThreshold; i += 1) {
-    let number = i;
+    const number = i;
     let sum = 0;
-    const digits = i.toString().split();
-    while(number > 0) {
-      const digit = number % 10;
-      digits.push(digit);
-      sum += powers[digits];
-      if(sum > i) {
-        // update i to go up a digit
-        i = nextDigit(i);
+    const digits = number.toString().split("").map(n => parseInt(n, 10));
+    for(let j = 0; j < digits.length; j += 1) {
+      sum += powers[digits[j]];
+
+      if(sum > number) {
+        i = nextDigit(digits, Math.max(0, j - 1)) - 1;
         break;
       }
-      number = parseInt(number / 10);
     }
-    if(sum === i) {
-      solution += sum;
+    if(sum === number) {
+      solution += number;
     }
   }
 
   return solution;
 }
 
-digitnPowers(5);
+console.log(digitnPowers(5));

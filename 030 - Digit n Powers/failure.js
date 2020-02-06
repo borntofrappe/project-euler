@@ -32,4 +32,4 @@ function digitnPowers(n) {
   return solution;
 }
 
-digitnPowers(5);
+console.log(digitnPowers(5));
