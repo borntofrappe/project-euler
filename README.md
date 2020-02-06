@@ -43,7 +43,7 @@ By the end of the challenge, I hope to have new insight into JavaScript and a ne
 | 027    | Quadratic Primes                   |    ✔️    |  ✔️   |
 | 028    | Number Spiral Diagonals            |    ✔️    |  ✔️   |
 | 029    | Distinct Powers                    |    ✔️    |  ✔️   |
-| 030    | Digit n Powers                     |    ✔️    |  ❌   |
+| 030    | Digit n Powers                     |    ❌    |  ❌   |
 
 <!-- | 0xx|Title|❌|❌| -->
 <!-- ✔️❌❓ -->
