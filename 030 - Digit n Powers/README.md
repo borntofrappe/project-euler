@@ -255,6 +255,12 @@ A variable which is then returned to provide the answer to the problem at hand.
 
 ```js
 console.log(digitnPowers(3)); // 1301
-console.log(digitnPowers(3)); // 19316
-console.log(digitnPowers(3)); // 443839
+console.log(digitnPowers(4)); // 19316
+console.log(digitnPowers(5)); // 443839
 ```
+
+There is a potential infinite loop, however.
+
+## Wrap Up?
+
+I am afraid the notes are less explanatory than previous challenges, and I cannot close the project with the same level of confidence. The logic is sound, but the approach must be improved in some way which eludes me. If you know the way, I plead you, let me know about it [@borntofrappe](https://twitter.com/borntofrappe). Luckily for me, the exercise has still been a good excuse to practice with JavaScript and array methods.
