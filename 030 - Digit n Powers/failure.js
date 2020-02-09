@@ -1,9 +1,6 @@
 function maxDigits(n) {
   let digits = 1;
-  while(true) {
-    if(10 ** (digits - 1) > digits * 9 ** n) {
-      break;
-    }
+  while (10 ** digits - 1 < digits * 9 ** n) {
     digits += 1;
   }
   return digits;
@@ -11,25 +8,23 @@ function maxDigits(n) {
 
 function digitnPowers(n) {
   const lowerThreshold = 10;
-  const upperThreshold = 10 ** (maxDigits(n) -1);
-  const powers = Array(10).fill(0).map((value, index) => index ** n);
-  let solution = 0;
-  for(let i = lowerThreshold; i < upperThreshold; i += 1) {
-    let number = i;
-    let sum = 0;
-    while(number > 0) {
-      sum += powers[number % 10];
-      if(sum > i) {
-        break;
-      }
-      number = parseInt(number / 10);
-    }
-    if(sum === i) {
-      solution += sum;
+  const upperThreshold = 10 ** maxDigits(n) - 1;
+  const powers = Array(10)
+    .fill(0)
+    .map((value, index) => index ** n);
+
+  let total = 0;
+
+  for (let i = lowerThreshold; i < upperThreshold; i += 1) {
+    const digits = i.toString().split("").map(num => parseInt(num, 10));
+    const sum = digits.reduce((acc, curr) => acc + powers[curr], 0);
+
+    if (i === sum) {
+      total += i;
     }
   }
 
-  return solution;
+  return total;
 }
 
-console.log(digitnPowers(5));
+console.log(digitnPowers(3));
